@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62f9c1858cb7e4b64b473fc1588009d8, type: 3}
   m_Name: Vehicle Status
   m_EditorClassIdentifier: 
-  maxSpeed: 100
+  maxSpeed: 70
   accelaration: 20
-  turnSpeed: 10
+  turnSpeed: 20
   gravity: 7
   downforce: 5

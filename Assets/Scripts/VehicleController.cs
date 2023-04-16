@@ -8,8 +8,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(VehicleInputManager))]
 public class VehicleController : MonoBehaviour {
     public VehicleStatus vehicleStatus;
+    
+    [SerializeField] private LayerMask driveableLayer;
     
     [Header("Physics Settings")]
     [SerializeField] private Rigidbody carWheelRigidbody;
@@ -23,7 +26,6 @@ public class VehicleController : MonoBehaviour {
     [Header("Visuals")]
     [SerializeField] private Transform[] frontWheels;
     [SerializeField] private TrailRenderer[] skidMarkTrails;
-    [SerializeField] private LayerMask driveableLayer;
 
     private float carWheelRigidbodyRadius;
     private float sign;
