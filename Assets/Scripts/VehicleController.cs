@@ -27,7 +27,6 @@ public class VehicleController : MonoBehaviour {
     [SerializeField] private Transform[] frontWheels;
     [SerializeField] private TrailRenderer[] skidMarkTrails;
 
-    private float carWheelRigidbodyRadius;
     private float sign;
     private float turnSpeedMultiplyer;
     private Vector3 carVelocity;
@@ -36,15 +35,6 @@ public class VehicleController : MonoBehaviour {
     private RaycastHit hit;
     private float rayMaxDistance;
 
-
-
-    private void Init() {
-        this.carWheelRigidbodyRadius = this.carWheelRigidbody.GetComponent<SphereCollider>().radius;
-    }
-
-    private void Awake() {
-        Init();
-    }
 
     private void FixedUpdate() {
         if (GroundCheck()) {

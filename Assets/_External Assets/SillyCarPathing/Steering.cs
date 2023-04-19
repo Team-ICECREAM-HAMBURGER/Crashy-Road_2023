@@ -44,7 +44,7 @@ namespace SillyCarPathing
             FL.motorTorque = Throttle - WheelDrive;
             RR.motorTorque = Throttle - WheelDrive;
             RL.motorTorque = Throttle - WheelDrive;
-
+/*
             // Quick check for appropriate path length
             if (pathing.path.corners.Length > 1)
             {
@@ -86,7 +86,9 @@ namespace SillyCarPathing
                 FR.brakeTorque = 0;
                 FL.brakeTorque = 0;
             }
+*/
         }
+    
         void FixedUpdate()
         {
             // Apply downforce to make sure the car doesn't roll or introduce strange behavior in how it turns
