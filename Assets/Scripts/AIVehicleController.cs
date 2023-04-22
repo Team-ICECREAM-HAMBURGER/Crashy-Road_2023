@@ -33,6 +33,7 @@ public class AIVehicleController : MonoBehaviour {
 
     
     private void Init() {
+        this.target = GameObject.FindWithTag("Player").transform;
         this.rb = GetComponent<Rigidbody>();
         this.path = new NavMeshPath();
         this._torquePower = this.torquePower;
