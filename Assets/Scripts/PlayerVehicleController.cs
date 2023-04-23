@@ -1,4 +1,4 @@
-// VehicleController.cs
+// PlayerVehicleController.cs
 /* 
     플레이어 자동차의 조작을 제어합니다.
     앞/뒤/좌/우 이동 및 정지 등 자동차의 움직임과 관련된 기능들을 구현합니다.
@@ -8,8 +8,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(VehicleInputManager))]
-public class VehicleController : MonoBehaviour {
+[RequireComponent(typeof(PlayerInputManager))]
+public class PlayerVehicleController : MonoBehaviour {
     public VehicleStatus vehicleStatus;
     
     [SerializeField] private LayerMask driveableLayer;
@@ -53,11 +53,11 @@ public class VehicleController : MonoBehaviour {
         }
 
         // 차량 회전
-        if (VehicleInputManager.instance.verticalInput > 0.1f || this.carVelocity.z > 1) {  // 차가 앞으로 움직일 때, 좌/우
-            this.carBodyRigidbody.AddTorque(Vector3.up * VehicleInputManager.instance.horizontalInput * this.sign * vehicleStatus.turnSpeed * this.turnSpeedMultiplyer * 100);
+        if (PlayerInputManager.instance.verticalInput > 0.1f || this.carVelocity.z > 1) {  // 차가 앞으로 움직일 때, 좌/우
+            this.carBodyRigidbody.AddTorque(Vector3.up * PlayerInputManager.instance.horizontalInput * this.sign * vehicleStatus.turnSpeed * this.turnSpeedMultiplyer * 100);
         }
-        else if (VehicleInputManager.instance.verticalInput < -0.1f || this.carVelocity.z < -1) {   // 차가 뒤로 움직일 때, 우/좌
-            this.carBodyRigidbody.AddTorque(Vector3.up * VehicleInputManager.instance.horizontalInput * this.sign * vehicleStatus.turnSpeed * this.turnSpeedMultiplyer * 100);
+        else if (PlayerInputManager.instance.verticalInput < -0.1f || this.carVelocity.z < -1) {   // 차가 뒤로 움직일 때, 우/좌
+            this.carBodyRigidbody.AddTorque(Vector3.up * PlayerInputManager.instance.horizontalInput * this.sign * vehicleStatus.turnSpeed * this.turnSpeedMultiplyer * 100);
         }
 
         // 스키드 마크
@@ -74,13 +74,13 @@ public class VehicleController : MonoBehaviour {
 
         // 바퀴 회전
         foreach (Transform frontWheel in this.frontWheels) {
-            frontWheel.localRotation = Quaternion.Slerp(frontWheel.localRotation, Quaternion.Euler(frontWheel.localRotation.eulerAngles.x, 30 * VehicleInputManager.instance.horizontalInput, frontWheel.localRotation.eulerAngles.z), 0.1f);
+            frontWheel.localRotation = Quaternion.Slerp(frontWheel.localRotation, Quaternion.Euler(frontWheel.localRotation.eulerAngles.x, 30 * PlayerInputManager.instance.horizontalInput, frontWheel.localRotation.eulerAngles.z), 0.1f);
         }
     }
 
     private void Move() {
-        if (Mathf.Abs(VehicleInputManager.instance.verticalInput) > 0.1f) {
-            this.carWheelRigidbody.velocity = Vector3.Lerp(this.carWheelRigidbody.velocity, this.carBodyRigidbody.transform.forward * VehicleInputManager.instance.verticalInput * vehicleStatus.maxSpeed, vehicleStatus.accelaration / 10 * Time.deltaTime);
+        if (Mathf.Abs(PlayerInputManager.instance.verticalInput) > 0.1f) {
+            this.carWheelRigidbody.velocity = Vector3.Lerp(this.carWheelRigidbody.velocity, this.carBodyRigidbody.transform.forward * PlayerInputManager.instance.verticalInput * vehicleStatus.maxSpeed, vehicleStatus.accelaration / 10 * Time.deltaTime);
         }
 
         // Downforce

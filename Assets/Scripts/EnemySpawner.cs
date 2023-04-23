@@ -15,15 +15,13 @@ public class EnemySpawner : MonoBehaviour {
 
     private int index;
 
+
     private void Init() {
         GamaManager.instance.gameOverHandler += SpawnStop;
     }
 
-    private void Awake() {
-        Init();
-    }
-
     private void Start() {
+        Init();
         StartCoroutine("EnemySpawn");
     }
 

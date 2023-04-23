@@ -38,7 +38,7 @@ public class EnemyPooling : MonoBehaviour {
         AddPoolItem();
     }
 
-    private void Awake() {
+    private void Start() {
         Init();
     }
     
