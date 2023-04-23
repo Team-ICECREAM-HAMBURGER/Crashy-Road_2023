@@ -31,12 +31,14 @@ public class AIVehicleController : MonoBehaviour {
     private float pathSearchCoolTime;
     private float _torquePower;
 
-    
+
     private void Init() {
         this.target = GameObject.FindWithTag("Player").transform;
         this.rb = GetComponent<Rigidbody>();
         this.path = new NavMeshPath();
         this._torquePower = this.torquePower;
+        
+        GamaManager.instance.gameOverHandler += ChaseOver;
     }
 
     private void Awake() {
@@ -44,16 +46,11 @@ public class AIVehicleController : MonoBehaviour {
     }
 
     private void FixedUpdate() {
-        if (Grounded()) {
+        if (Grounded() && this.target != null) {
             Pathing();
             Move();
             Rotate();
             SkidMark();
-        }
-
-        // Debug
-        for (int i = 0; i < path.corners.Length - 1; i++) {
-            Debug.DrawLine(path.corners[i], path.corners[i + 1], Color.red);
         }
     }
 
@@ -106,6 +103,15 @@ public class AIVehicleController : MonoBehaviour {
         }
     }
 
+    private void ChaseOver() {
+        this.target = null;
+        
+        this.fl.motorTorque = 0f;
+        this.fr.motorTorque = 0f;
+        this.rr.motorTorque = 0f;
+        this.rl.motorTorque = 0f;
+    }
+
     private void SkidMark() {
         this.carVelocity = this.rb.transform.InverseTransformDirection(this.rb.velocity);
 
@@ -119,19 +125,5 @@ public class AIVehicleController : MonoBehaviour {
                 skid.emitting = false;
             }
         }
-    }
-
-    // Debug
-    private void OnDrawGizmos() {
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(transform.position, transform.position + this.direction);
-
-        if (path == null) {
-            return;
-        }
-
-        for (int i = 0; i < path.corners.Length - 1; i++) {
-            Gizmos.DrawWireSphere(path.corners[i], 2);
-        }   
     }
 }

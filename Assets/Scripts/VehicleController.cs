@@ -42,7 +42,6 @@ public class VehicleController : MonoBehaviour {
             Rotate();
         }
     }
-
     private void Rotate() {
         this.carVelocity = this.carBodyRigidbody.transform.InverseTransformDirection(this.carBodyRigidbody.velocity);
         this.sign = Mathf.Sign(this.carVelocity.z);

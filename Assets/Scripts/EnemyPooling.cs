@@ -1,3 +1,9 @@
+// EnemyPooling.cs
+/*
+    적(경찰차)들을 생성할 때 사용되는 Pooling 기법을 구현합니다.
+    EnemySpawner의 필수 컴포넌트입니다.
+*/
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
