@@ -12,6 +12,7 @@ using UnityEngine;
 public class PlayerVehicleController : MonoBehaviour {
     public VehicleStatus vehicleStatus;
     
+    [SerializeField] private int hp;
     [SerializeField] private LayerMask driveableLayer;
     
     [Header("Physics Settings")]
@@ -29,15 +30,15 @@ public class PlayerVehicleController : MonoBehaviour {
 
     private float sign;
     private float turnSpeedMultiplyer;
+    private float rayMaxDistance;
     private Vector3 carVelocity;
     private Vector3 rayOrigin;
     private Vector3 rayDirection;
     private RaycastHit hit;
-    private float rayMaxDistance;
 
 
     private void FixedUpdate() {
-        if (GroundCheck()) {
+        if (GroundCheck() && !Crash()) {
             Move();
             Rotate();
         }
@@ -97,6 +98,25 @@ public class PlayerVehicleController : MonoBehaviour {
         }
         else {
             return false;
+        }
+    }
+
+    private bool Crash() {
+        if (this.hp <= 0) {
+            GamaManager.instance.GameOver();
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    private void OnCollisionEnter(Collision other) {
+        if (other.transform.CompareTag("Obstacle")) {
+            this.hp -= 2;
+        }
+        else if (other.transform.CompareTag("Police")) {
+            this.hp -= 3;
         }
     }
 }

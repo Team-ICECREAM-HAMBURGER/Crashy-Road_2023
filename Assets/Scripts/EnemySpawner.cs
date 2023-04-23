@@ -32,6 +32,7 @@ public class EnemySpawner : MonoBehaviour {
             this.index = Random.Range(0, this.spanwPoints.Count);
 
             enemy.transform.position = spanwPoints[this.index].position;
+            enemy.transform.rotation = Quaternion.Euler(0, 0, 0);
 
             yield return new WaitForSeconds(this.spawnTime);    // wait
         }

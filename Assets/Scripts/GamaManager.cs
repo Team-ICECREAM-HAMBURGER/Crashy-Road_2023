@@ -24,6 +24,11 @@ public class GamaManager : MonoBehaviour {
         if (instance == null) {
             instance = this;
         }
+        else {
+            Destroy(this);
+        }
+
+        DontDestroyOnLoad(this);
         
         LoadHighScore();
         this.gameOverHandler += SaveHighScore;
@@ -38,6 +43,8 @@ public class GamaManager : MonoBehaviour {
     }
 
     public void GameOver() {
+        Debug.Log("GameOver!");
+        
         StopCoroutine("TimeScoreCounter");
         this.gameOverHandler();
     }
@@ -47,6 +54,10 @@ public class GamaManager : MonoBehaviour {
             this.score += 1;
             yield return new WaitForSeconds(1f);
         }
+    }
+
+    public void ScoreUp(int score) {
+        this.score += score;
     }
 
     private void SaveHighScore() {

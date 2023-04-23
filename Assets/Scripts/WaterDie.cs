@@ -14,6 +14,10 @@ public class WaterDie : MonoBehaviour {
             if (other.gameObject.CompareTag("Player")) {
                 GamaManager.instance.GameOver();
             }
+            else if (other.gameObject.CompareTag("Police")) {
+                EnemyPooling.instance.DeActivePoolItem(other.gameObject);
+                GamaManager.instance.ScoreUp(10);
+            }
             
             other.gameObject.SetActive(false);
         }

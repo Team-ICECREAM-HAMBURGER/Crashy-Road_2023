@@ -1,4 +1,4 @@
-// AIVehicleController.cs
+// EnemyVehicleController.cs
 /*
     플레이어를 추적하는 인공지능을 구현합니다.
 */
@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class AIVehicleController : MonoBehaviour {    
+public class EnemyVehicleController : MonoBehaviour {    
     [SerializeField] private Transform target;  // 추적 대상
     [SerializeField] private float torquePower;
     [SerializeField] private LayerMask driveableLayer;
@@ -27,7 +27,8 @@ public class AIVehicleController : MonoBehaviour {
     private Rigidbody rb;
     private Vector3 direction;
     private Vector3 carVelocity;
-    private float distance;
+    private float chaseDistance;
+    private float resetDistance;
     private float pathSearchCoolTime;
     private float _torquePower;
 
@@ -51,6 +52,7 @@ public class AIVehicleController : MonoBehaviour {
             Move();
             Rotate();
             SkidMark();
+            StartCoroutine("Reset");
         }
     }
 
@@ -64,7 +66,7 @@ public class AIVehicleController : MonoBehaviour {
     }
 
     private void Move() {
-        if (this.distance < 7f) {
+        if (this.chaseDistance < 7f) {
             this.torquePower = 0;
         }
         else {
@@ -99,7 +101,7 @@ public class AIVehicleController : MonoBehaviour {
             this.pathSearchCoolTime = 0;
 
             NavMesh.CalculatePath(transform.position, this.target.position, NavMesh.AllAreas, this.path);
-            this.distance = Vector3.Distance(transform.position, this.target.position);
+            this.chaseDistance = Vector3.Distance(transform.position, this.target.position);
         }
     }
 
@@ -110,6 +112,20 @@ public class AIVehicleController : MonoBehaviour {
         this.fr.motorTorque = 0f;
         this.rr.motorTorque = 0f;
         this.rl.motorTorque = 0f;
+    }
+
+    private IEnumerator Reset() {
+        Vector3 positionA = transform.position;
+            
+        yield return new WaitForSeconds(3);
+            
+        Vector3 positionB = transform.position;
+
+        if (Vector3.Distance(positionA, positionB) < 0.5f) {
+            if (Vector3.Distance(transform.position, this.target.transform.position) > 15) {
+                EnemyPooling.instance.DeActivePoolItem(gameObject);
+            }
+        }
     }
 
     private void SkidMark() {
