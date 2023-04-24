@@ -103,7 +103,7 @@ public class PlayerVehicleController : MonoBehaviour {
 
     private bool Crash() {
         if (this.hp <= 0) {
-            GamaManager.instance.GameOver();
+            GameManager.instance.GameOver();
             return true;
         }
         else {

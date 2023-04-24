@@ -17,7 +17,7 @@ public class EnemySpawner : MonoBehaviour {
 
 
     private void Init() {
-        GamaManager.instance.gameOverHandler += SpawnStop;
+        GameManager.instance.gameOverHandler += SpawnStop;
     }
 
     private void Start() {

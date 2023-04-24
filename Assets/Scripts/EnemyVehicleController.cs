@@ -39,7 +39,7 @@ public class EnemyVehicleController : MonoBehaviour {
         this.path = new NavMeshPath();
         this._torquePower = this.torquePower;
         
-        GamaManager.instance.gameOverHandler += ChaseOver;
+        GameManager.instance.gameOverHandler += ChaseOver;
     }
 
     private void Awake() {
@@ -112,6 +112,8 @@ public class EnemyVehicleController : MonoBehaviour {
         this.fr.motorTorque = 0f;
         this.rr.motorTorque = 0f;
         this.rl.motorTorque = 0f;
+
+        StopCoroutine("Reset");
     }
 
     private IEnumerator Reset() {
