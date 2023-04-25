@@ -12,9 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/02.Menu_Map.unity
     guid: 732cb933066bc5741a067f687da3f5de
   - enabled: 1
-    path: Assets/Scenes/03.Menu_Car.unity
+    path: Assets/Scenes/02.Menu_Car.unity
     guid: 60f0e687b14cfd14d9f7b2e336ef0a6b
   - enabled: 1
-    path: Assets/Scenes/04.Main_1.unity
+    path: Assets/Scenes/02.Main_1.unity
     guid: 039dadf4606e68b4c84be7b15741dc63
   m_configObjects: {}

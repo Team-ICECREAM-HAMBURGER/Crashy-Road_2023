@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 
-public class UIManager : MonoBehaviour {
+public class GameUIManager : MonoBehaviour {
     [Header("In Game")]
     [SerializeField] private Button pauseButton;
     [SerializeField] private TMP_Text scoreText;
@@ -65,6 +65,7 @@ public class UIManager : MonoBehaviour {
     }
 
     private void ReturnToMain() {
+        Time.timeScale = 1;
         SceneManager.LoadScene(0);
     }
 
