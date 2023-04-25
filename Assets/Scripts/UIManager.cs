@@ -22,7 +22,6 @@ public class UIManager : MonoBehaviour {
     [SerializeField] private Button gameOverMainMenuButton;
 
 
-
     private void Init() {
         this.pauseButton.onClick.AddListener(GamePause);
 
@@ -60,6 +59,9 @@ public class UIManager : MonoBehaviour {
     private void GameRestart() {
         Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        
+        GameManager.instance.gameObject.SetActive(false);
+        GameManager.instance.gameObject.SetActive(true);
     }
 
     private void ReturnToMain() {
@@ -69,5 +71,7 @@ public class UIManager : MonoBehaviour {
     private void GameOver() {
         Time.timeScale = 0;
         this.gameOverMenuCanvas.SetActive(true);
+
+        GameManager.instance.gameObject.SetActive(false);
     }
 }

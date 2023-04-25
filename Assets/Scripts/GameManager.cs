@@ -24,8 +24,9 @@ public class GameManager : MonoBehaviour {
             Destroy(gameObject);
             return;
         }
-
+        
         instance = this;
+        DontDestroyOnLoad(instance);
 
         this.score = 0;
         LoadHighScore();
@@ -33,7 +34,7 @@ public class GameManager : MonoBehaviour {
         this.gameOverHandler += SaveHighScore;
     }
 
-    private void Awake() {
+    private void OnEnable() {
         Init();
     }
 
