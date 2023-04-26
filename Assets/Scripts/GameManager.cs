@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour {
     public static GameManager instance;
 
     public int score { get; private set; }
-    private int highScore;
+    public int highScore { get; private set; }
 
     public delegate void GameOverHandler();
     public event GameOverHandler gameOverHandler;
@@ -26,15 +26,21 @@ public class GameManager : MonoBehaviour {
         }
         
         instance = this;
-        DontDestroyOnLoad(instance);
+        // DontDestroyOnLoad(instance);
 
         this.score = 0;
         LoadHighScore();
 
+        Time.timeScale = 0;
+
         this.gameOverHandler += SaveHighScore;
     }
 
-    private void OnEnable() {
+    // private void OnEnable() {
+    //     Init();
+    // }
+    
+    private void Awake() {
         Init();
     }
 
@@ -49,8 +55,8 @@ public class GameManager : MonoBehaviour {
 
     private IEnumerator TimeScoreCounter() {
         while(true) {
-            this.score += 1;
             yield return new WaitForSeconds(1f);
+            this.score += 1;
         }
     }
 

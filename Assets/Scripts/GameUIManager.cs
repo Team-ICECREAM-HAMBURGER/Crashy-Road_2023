@@ -20,9 +20,21 @@ public class GameUIManager : MonoBehaviour {
     [SerializeField] private GameObject gameOverMenuCanvas;
     [SerializeField] private Button gameOverRestartButton;
     [SerializeField] private Button gameOverMainMenuButton;
+    [SerializeField] private TMP_Text highScoreText;
+
+    [Header("Tutorial Menu")]
+    [SerializeField] private GameObject tutorialMenuCanvas;
+    [SerializeField] private Button nextButtonL;
+    [SerializeField] private Button nextButtonR;
+    [SerializeField] private Button closeButton;
+    [SerializeField] private GameObject[] rulePages;
+
+    private int index;
 
 
     private void Init() {
+        this.index = 0;
+
         this.pauseButton.onClick.AddListener(GamePause);
 
         this.pauseResumeButton.onClick.AddListener(GameResume);
@@ -32,6 +44,11 @@ public class GameUIManager : MonoBehaviour {
         this.gameOverRestartButton.onClick.AddListener(GameRestart);
         this.gameOverMainMenuButton.onClick.AddListener(ReturnToMain);
 
+        this.nextButtonL.onClick.AddListener(() => TutorialNextPage(1));
+        this.nextButtonR.onClick.AddListener(() => TutorialNextPage(-1));
+        this.closeButton.onClick.AddListener(() => TutorialPageClose());
+
+        this.tutorialMenuCanvas.SetActive(true);
         this.pauseMenuCanvas.SetActive(false);
         this.gameOverMenuCanvas.SetActive(false);
 
@@ -60,8 +77,8 @@ public class GameUIManager : MonoBehaviour {
         Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         
-        GameManager.instance.gameObject.SetActive(false);
-        GameManager.instance.gameObject.SetActive(true);
+        // GameManager.instance.gameObject.SetActive(false);
+        // GameManager.instance.gameObject.SetActive(true);
     }
 
     private void ReturnToMain() {
@@ -72,7 +89,35 @@ public class GameUIManager : MonoBehaviour {
     private void GameOver() {
         Time.timeScale = 0;
         this.gameOverMenuCanvas.SetActive(true);
+        this.highScoreText.text = "Best Record" + "\n" + GameManager.instance.highScore.ToString();
+        // GameManager.instance.gameObject.SetActive(false);
+    }
 
-        GameManager.instance.gameObject.SetActive(false);
+    private void TutorialNextPage(int way) {
+        foreach (GameObject page in this.rulePages) {
+            page.SetActive(false);
+        }
+
+        if (way == 1) {         // LEFT
+            if (this.index <= 0) {
+                this.index = this.rulePages.Length;
+            }
+
+            this.index -= 1;
+        }
+        else if (way == -1) {   // RIGHT
+            if (this.index >= this.rulePages.Length-1) {
+                this.index = -1;
+            }
+
+            this.index += 1;
+        }
+
+        this.rulePages[this.index].SetActive(true);
+    }
+
+    private void TutorialPageClose() {
+        Time.timeScale = 1;
+        this.tutorialMenuCanvas.SetActive(false);
     }
 }
