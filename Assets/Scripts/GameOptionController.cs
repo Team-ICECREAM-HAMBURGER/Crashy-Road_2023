@@ -2,11 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Audio;
 
 public class GameOptionController : MonoBehaviour {
+    [SerializeField] private AudioMixer mainMixer;
+    [SerializeField] private Scrollbar soundBar;
+
     private int oriScreenW;
     private int oriScreenH;
     
+
     private void Init() {
         this.oriScreenW = Screen.currentResolution.width;
         this.oriScreenH = Screen.currentResolution.height;
@@ -40,5 +45,14 @@ public class GameOptionController : MonoBehaviour {
 
     public void QualityOption(int num) {
         QualitySettings.SetQualityLevel(num);
+    }
+
+    public void SoundControl(bool isMute) {
+        if (isMute) {
+            this.mainMixer.SetFloat("Master", -80);
+        }
+        else {
+            this.mainMixer.SetFloat("Master", Mathf.Log10(this.soundBar.value) * 20);
+        }
     }
 }
