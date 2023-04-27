@@ -5,13 +5,28 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class IntroUIManager : MonoBehaviour {
+    [Header("Main Menu")]
+    [SerializeField] private GameObject mainMenuCanvas;
     [SerializeField] private Button singlePlayButton;
     [SerializeField] private Button optionButton;
     [SerializeField] private Button quitButton;
 
+    [Header("Option Menu")]
+    [SerializeField] private GameObject optionMenuCanvas;
+    [SerializeField] private Button graphicTabButton;
+    [SerializeField] private Button soundTabButton;
+    [SerializeField] private Button exitTabButton;
+    
+    [Space(10f)]
+    
+    [SerializeField] private GameObject graphicTab;
+    [SerializeField] private GameObject soundTab;
+
     [Space(10f)]
 
-    [SerializeField] private GameObject loadingScene;
+    [SerializeField] private GameObject loadingSceneCanvas;
+
+    private GameObject prevTab;
 
 
     private void Init() {
@@ -19,7 +34,13 @@ public class IntroUIManager : MonoBehaviour {
         this.optionButton.onClick.AddListener(Option);
         this.quitButton.onClick.AddListener(GameQuit);
 
-        this.loadingScene.SetActive(false);
+        this.graphicTabButton.onClick.AddListener(() => OptionTab(graphicTab));
+        this.soundTabButton.onClick.AddListener(() => OptionTab(soundTab));
+        this.exitTabButton.onClick.AddListener(OptionExit);
+
+        this.loadingSceneCanvas.SetActive(false);
+
+        this.prevTab = this.graphicTab;
     }
 
     private void Start() {
@@ -31,15 +52,31 @@ public class IntroUIManager : MonoBehaviour {
     }
 
     private void Option() {
-        // TODO
+        this.mainMenuCanvas.SetActive(false);
+        this.optionMenuCanvas.SetActive(true);
     }
 
     private void GameQuit() {
         Application.Quit();
     }
 
+    private void OptionTab(GameObject tab) {
+        if (this.prevTab.activeInHierarchy) {
+            this.prevTab.SetActive(false);
+        }
+        
+        this.prevTab = tab;
+
+        tab.SetActive(true);
+    }
+
+    private void OptionExit() {
+        this.optionMenuCanvas.SetActive(false);
+        this.mainMenuCanvas.SetActive(true);
+    }
+
     IEnumerator LoadSceneAsync(int sceneID) {
-        this.loadingScene.SetActive(true);
+        this.loadingSceneCanvas.SetActive(true);
 
         yield return StartCoroutine(LoadingFade());
         
@@ -69,7 +106,7 @@ public class IntroUIManager : MonoBehaviour {
             yield return null;
 
             timer += Time.unscaledDeltaTime;
-            this.loadingScene.GetComponent<CanvasGroup>().alpha = Mathf.Lerp(0, 1, timer);
+            this.loadingSceneCanvas.GetComponent<CanvasGroup>().alpha = Mathf.Lerp(0, 1, timer);
         }
     }
 }
