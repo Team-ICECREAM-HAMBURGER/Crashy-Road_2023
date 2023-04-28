@@ -189,7 +189,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &14450350
 GameObject:
@@ -640,7 +640,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &62208760
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1844,7 +1844,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &406611384
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2789,7 +2789,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &690902739
 MonoBehaviour:
@@ -4596,7 +4596,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1476784530}
         m_TargetAssemblyTypeName: GameOptionController, Assembly-CSharp
-        m_MethodName: SoundControl
+        m_MethodName: Mute
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6241,7 +6241,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1476784530}
         m_TargetAssemblyTypeName: GameOptionController, Assembly-CSharp
-        m_MethodName: SoundControl
+        m_MethodName: Mute
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8018,7 +8018,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1476784530
 MonoBehaviour:
@@ -10460,7 +10460,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1591335371}
   m_HandleRect: {fileID: 1591335370}
   m_Direction: 0
-  m_Value: 0
+  m_Value: 1
   m_Size: 0
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -10469,7 +10469,7 @@ MonoBehaviour:
       - m_Target: {fileID: 1476784530}
         m_TargetAssemblyTypeName: GameOptionController, Assembly-CSharp
         m_MethodName: SoundControl
-        m_Mode: 6
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -11852,7 +11852,7 @@ AudioSource:
   m_GameObject: {fileID: 2045207190}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: cfa76bef6c7441649bfa3732ba9e5339, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -11952,7 +11952,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2045207193
 MonoBehaviour:
@@ -11966,6 +11966,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dff11e9a09e96547bb9266f7db33776, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bgmList:
+  - {fileID: 8300000, guid: 8402ed095beea3246baa84358bac316e, type: 3}
 --- !u!1 &2056261977
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,6 +12,10 @@ public class GameManager : MonoBehaviour {
 
     public static GameManager instance;
 
+    [SerializeField] private ObjectPooling enemyPooling;
+    [SerializeField] private ObjectPooling itemPooling;
+    [SerializeField] private GameUIManager gameUIManager;
+
     public int score { get; private set; }
     public int highScore { get; private set; }
 
@@ -26,7 +30,6 @@ public class GameManager : MonoBehaviour {
         }
         
         instance = this;
-        // DontDestroyOnLoad(instance);
 
         this.score = 0;
         LoadHighScore();
@@ -36,10 +39,6 @@ public class GameManager : MonoBehaviour {
         this.gameOverHandler += SaveHighScore;
     }
 
-    // private void OnEnable() {
-    //     Init();
-    // }
-    
     private void Awake() {
         Init();
     }
@@ -60,8 +59,20 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    public void EnemyDeactive(GameObject obj) {
+        this.enemyPooling.DeActivePoolItem(obj);
+    }
+
+    public void ItemDeactive(GameObject obj) {
+        this.itemPooling.DeActivePoolItem(obj);
+    }
+
     public void ScoreUp(int score) {
         this.score += score;
+    }
+
+    public void ItemGet(string name) {
+        this.gameUIManager.StartCoroutine("ItemGet", name);
     }
 
     private void SaveHighScore() {

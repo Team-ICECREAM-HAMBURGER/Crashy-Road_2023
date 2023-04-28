@@ -9,6 +9,7 @@ public class GameUIManager : MonoBehaviour {
     [Header("In Game")]
     [SerializeField] private Button pauseButton;
     [SerializeField] private TMP_Text scoreText;
+    [SerializeField] private TMP_Text itemGetText;
 
     [Header("Pause Menu")]
     [SerializeField] private GameObject pauseMenuCanvas;
@@ -76,9 +77,6 @@ public class GameUIManager : MonoBehaviour {
     private void GameRestart() {
         Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        
-        // GameManager.instance.gameObject.SetActive(false);
-        // GameManager.instance.gameObject.SetActive(true);
     }
 
     private void ReturnToMain() {
@@ -90,7 +88,15 @@ public class GameUIManager : MonoBehaviour {
         Time.timeScale = 0;
         this.gameOverMenuCanvas.SetActive(true);
         this.highScoreText.text = "Best Record" + "\n" + GameManager.instance.highScore.ToString();
-        // GameManager.instance.gameObject.SetActive(false);
+    }
+
+    public IEnumerator ItemGet(string name) {
+        this.itemGetText.text = name + " Item Get!";
+        this.itemGetText.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(3f);
+
+        this.itemGetText.gameObject.SetActive(false);
     }
 
     private void TutorialNextPage(int way) {

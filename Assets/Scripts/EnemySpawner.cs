@@ -8,16 +8,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(EnemyPooling))]
+[RequireComponent(typeof(ObjectPooling))]
 public class EnemySpawner : MonoBehaviour {
     [SerializeField] private float spawnTime;
     [SerializeField] private List<Transform> spanwPoints;
 
     private int index;
+    private ObjectPooling pooling;
 
 
     private void Init() {
         GameManager.instance.gameOverHandler += SpawnStop;
+        this.pooling = GetComponent<ObjectPooling>();
     }
 
     private void Start() {
@@ -27,7 +29,7 @@ public class EnemySpawner : MonoBehaviour {
 
     IEnumerator EnemySpawn() {
         while (true) {  // TODO: if player is alive
-            GameObject enemy = EnemyPooling.instance.ActivePoolItem();    // spawn
+            GameObject enemy = this.pooling.ActivePoolItem();    // spawn
 
             this.index = Random.Range(0, this.spanwPoints.Count);
 

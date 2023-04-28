@@ -10,11 +10,15 @@ public class GameOptionController : MonoBehaviour {
 
     private int oriScreenW;
     private int oriScreenH;
-    
+    private static float soundVal = 1;
+
 
     private void Init() {
         this.oriScreenW = Screen.currentResolution.width;
         this.oriScreenH = Screen.currentResolution.height;
+
+        this.soundBar.value = soundVal;
+        SoundControl(soundVal);
     }
 
     private void Start() {
@@ -47,12 +51,18 @@ public class GameOptionController : MonoBehaviour {
         QualitySettings.SetQualityLevel(num);
     }
 
-    public void SoundControl(bool isMute) {
+    public void Mute(bool isMute) {
         if (isMute) {
-            this.mainMixer.SetFloat("Master", -80);
+            SoundControl(0);
         }
         else {
-            this.mainMixer.SetFloat("Master", Mathf.Log10(this.soundBar.value) * 20);
+            SoundControl(1);
         }
+    }
+
+    public void SoundControl(float value) {
+        soundVal = value;
+        this.soundBar.value = value;
+        this.mainMixer.SetFloat("Master", Mathf.Log10(value + 0.0001f)*20);
     }
 }

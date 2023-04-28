@@ -7,12 +7,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 [RequireComponent(typeof(PlayerInputManager))]
 public class PlayerVehicleController : MonoBehaviour {
     public VehicleStatus vehicleStatus;
     
-    [SerializeField] private int hp;
+    public int hp { get; set; }
+    public bool isMirror { get; set; }
+
     [SerializeField] private LayerMask driveableLayer;
     
     [Header("Physics Settings")]
@@ -27,22 +30,58 @@ public class PlayerVehicleController : MonoBehaviour {
     [Header("Visuals")]
     [SerializeField] private Transform[] frontWheels;
     [SerializeField] private TrailRenderer[] skidMarkTrails;
+    [SerializeField] private GameObject fireParticle;
+    [SerializeField] private GameObject explosionParticle;
+    [SerializeField] private CinemachineVirtualCamera virtualCamera;
+    [SerializeField] private AudioSource explosionAudioSource;
+    [SerializeField] private AudioSource skidAudioSource;
+    [SerializeField] private AudioSource hitAudioSource;
+    
 
     private float sign;
     private float turnSpeedMultiplyer;
+    private float moveSpeedMultiplyer = 1;
     private float rayMaxDistance;
+
     private Vector3 carVelocity;
     private Vector3 rayOrigin;
     private Vector3 rayDirection;
     private RaycastHit hit;
 
 
+    private void Start() {
+        this.hp = 30;
+    }
+
     private void FixedUpdate() {
         if (GroundCheck() && !Crash()) {
             Move();
             Rotate();
         }
+
+        Fire();    
     }
+
+
+    private void Fire() {
+        if (this.hp <= 10) {
+            this.fireParticle.SetActive(true);
+        }
+    }
+
+    public IEnumerator Explosion() {
+        this.explosionParticle.SetActive(true);
+
+        this.virtualCamera.m_Lens.FieldOfView = 30;
+        this.explosionAudioSource.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(3f);
+
+        this.skidAudioSource.gameObject.SetActive(false);
+
+        GameManager.instance.GameOver();
+    }
+
     private void Rotate() {
         this.carVelocity = this.carBodyRigidbody.transform.InverseTransformDirection(this.carBodyRigidbody.velocity);
         this.sign = Mathf.Sign(this.carVelocity.z);
@@ -65,11 +104,13 @@ public class PlayerVehicleController : MonoBehaviour {
         if (Mathf.Abs(this.carVelocity.x) > 10) {
             foreach (TrailRenderer skid in this.skidMarkTrails) {
                 skid.emitting = true;
+                this.skidAudioSource.gameObject.SetActive(true);
             }
         }
         else {
             foreach (TrailRenderer skid in this.skidMarkTrails) {
                 skid.emitting = false;
+                this.skidAudioSource.gameObject.SetActive(false);
             }
         }
 
@@ -81,7 +122,7 @@ public class PlayerVehicleController : MonoBehaviour {
 
     private void Move() {
         if (Mathf.Abs(PlayerInputManager.instance.verticalInput) > 0.1f) {
-            this.carWheelRigidbody.velocity = Vector3.Lerp(this.carWheelRigidbody.velocity, this.carBodyRigidbody.transform.forward * PlayerInputManager.instance.verticalInput * vehicleStatus.maxSpeed, vehicleStatus.accelaration / 10 * Time.deltaTime);
+            this.carWheelRigidbody.velocity = Vector3.Lerp(this.carWheelRigidbody.velocity, this.carBodyRigidbody.transform.forward * PlayerInputManager.instance.verticalInput * vehicleStatus.maxSpeed * this.moveSpeedMultiplyer, vehicleStatus.accelaration / 10 * Time.deltaTime);
         }
 
         // Downforce
@@ -103,7 +144,7 @@ public class PlayerVehicleController : MonoBehaviour {
 
     private bool Crash() {
         if (this.hp <= 0) {
-            GameManager.instance.GameOver();
+            StartCoroutine("Explosion");
             return true;
         }
         else {
@@ -111,12 +152,38 @@ public class PlayerVehicleController : MonoBehaviour {
         }
     }
 
+    private IEnumerator SpeedUp() {
+        this.moveSpeedMultiplyer = 1.5f;
+
+        yield return new WaitForSeconds(10f);
+
+        this.moveSpeedMultiplyer = 1;
+    }
+
     private void OnCollisionEnter(Collision other) {
         if (other.transform.CompareTag("Obstacle")) {
-            this.hp -= 2;
+            if (Mathf.Abs(this.carVelocity.z) > 20) {
+                this.hp -= 2;
+                this.hitAudioSource.Play();
+            }
         }
         else if (other.transform.CompareTag("Police")) {
-            this.hp -= 3;
+            if (this.isMirror) {
+                other.gameObject.GetComponent<EnemyVehicleController>().hp = 0;
+            }
+            else {
+                if (Mathf.Abs(this.carVelocity.z) > 10) {
+                    this.hp -= 3;
+                    this.hitAudioSource.Play();
+                }
+            }
+        }
+    }
+
+    private void OnTriggerEnter(Collider other) {
+        IItem item = other.GetComponent<IItem>();
+        if (item != null) {
+            item.Use(gameObject);
         }
     }
 }

@@ -17,4 +17,3 @@ MonoBehaviour:
   turnSpeed: 500
   gravity: 7
   downforce: 5
-  hp: 100

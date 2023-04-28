@@ -22,6 +22,11 @@ public class EnemyVehicleController : MonoBehaviour {
     [Header("Visuals")]
     [SerializeField] private Transform[] frontWheels;
     [SerializeField] private TrailRenderer[] skidMarkTrails;
+    [SerializeField] private GameObject fireParticle;
+    [SerializeField] private GameObject explosionParticle;
+    [SerializeField] private AudioSource explosionAudioSource;
+    [SerializeField] private Light redLight;
+    [SerializeField] private Light blueLight;
 
     private NavMeshPath path;
     private Rigidbody rb;
@@ -31,6 +36,8 @@ public class EnemyVehicleController : MonoBehaviour {
     private float resetDistance;
     private float pathSearchCoolTime;
     private float _torquePower;
+    private bool isCrashed;
+    public int hp { get; set; }
 
 
     private void Init() {
@@ -38,20 +45,46 @@ public class EnemyVehicleController : MonoBehaviour {
         this.rb = GetComponent<Rigidbody>();
         this.path = new NavMeshPath();
         this._torquePower = this.torquePower;
-        
-        GameManager.instance.gameOverHandler += ChaseOver;
+        this.hp = 10;
     }
 
-    private void Awake() {
+    private void Start() {
         Init();
     }
 
+    private void OnEnable() {
+        StartCoroutine("Lighting");
+    }
+
+    private void OnDisable() {
+        this.isCrashed = false;
+        this.hp = 10;
+        this.explosionParticle.gameObject.SetActive(false);
+        this.explosionAudioSource.gameObject.SetActive(false);
+    }
+
+    private IEnumerator Lighting() {
+        while (true) {
+            this.redLight.enabled = true;
+            this.blueLight.enabled = false;
+
+            yield return new WaitForSeconds(0.3f);
+
+            this.redLight.enabled = false;
+            this.blueLight.enabled = true;
+
+            yield return new WaitForSeconds(0.3f);
+        }
+    }
+
     private void FixedUpdate() {
-        if (Grounded() && this.target != null) {
+        if (Grounded() && !this.isCrashed) {
             Pathing();
             Move();
             Rotate();
             SkidMark();
+            Fire();
+
             StartCoroutine("Reset");
         }
     }
@@ -105,15 +138,13 @@ public class EnemyVehicleController : MonoBehaviour {
         }
     }
 
-    private void ChaseOver() {
-        this.target = null;
-        
-        this.fl.motorTorque = 0f;
-        this.fr.motorTorque = 0f;
-        this.rr.motorTorque = 0f;
-        this.rl.motorTorque = 0f;
-
-        StopCoroutine("Reset");
+    private void Fire() {
+        if (this.hp <= 5) {
+            this.fireParticle.SetActive(true);
+        }
+        else {
+            this.fireParticle.SetActive(false);
+        }
     }
 
     private IEnumerator Reset() {
@@ -125,7 +156,7 @@ public class EnemyVehicleController : MonoBehaviour {
 
         if (Vector3.Distance(positionA, positionB) < 0.5f) {
             if (Vector3.Distance(transform.position, this.target.transform.position) > 15) {
-                EnemyPooling.instance.DeActivePoolItem(gameObject);
+                GameManager.instance.EnemyDeactive(gameObject);
             }
         }
     }
@@ -143,5 +174,37 @@ public class EnemyVehicleController : MonoBehaviour {
                 skid.emitting = false;
             }
         }
+    }
+
+    private IEnumerator Crash() {
+        if (this.hp <= 0 && !this.isCrashed) {
+
+            Debug.Log("Crashed");
+            
+            this.isCrashed = true;
+            this.explosionParticle.gameObject.SetActive(true);
+            this.explosionAudioSource.gameObject.SetActive(true);
+
+            GameManager.instance.ScoreUp(10);
+
+            yield return new WaitForSeconds(5);
+            
+            GameManager.instance.EnemyDeactive(gameObject);
+        }
+    }
+
+    private void OnCollisionEnter(Collision other) {
+        if (other.transform.CompareTag("Obstacle")) {
+            if (Mathf.Abs(this.carVelocity.z) > 20) {
+                this.hp -= 2;
+            }
+        }
+        else if (other.transform.CompareTag("Police") || other.transform.CompareTag("Player")) {
+            if (Mathf.Abs(this.carVelocity.z) > 20) {
+                this.hp -= 3;
+            }
+        }
+
+        StartCoroutine("Crash");
     }
 }
