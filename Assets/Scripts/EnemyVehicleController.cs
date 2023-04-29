@@ -12,7 +12,9 @@ public class EnemyVehicleController : MonoBehaviour {
     [SerializeField] private Transform target;  // 추적 대상
     [SerializeField] private float torquePower;
     [SerializeField] private LayerMask driveableLayer;
-    
+
+    [SerializeField] private float corneringSpeed;
+
     [Header("Wheel Colliders")]
     [SerializeField] private WheelCollider fl;
     [SerializeField] private WheelCollider fr;
@@ -35,8 +37,8 @@ public class EnemyVehicleController : MonoBehaviour {
     private float chaseDistance;
     private float resetDistance;
     private float pathSearchCoolTime;
-    private float _torquePower;
     private bool isCrashed;
+    private bool isCornering;
     public int hp { get; set; }
 
 
@@ -44,8 +46,7 @@ public class EnemyVehicleController : MonoBehaviour {
         this.target = GameObject.FindWithTag("Player").transform;
         this.rb = GetComponent<Rigidbody>();
         this.path = new NavMeshPath();
-        this._torquePower = this.torquePower;
-        this.hp = 10;
+        this.hp = 1;
     }
 
     private void Start() {
@@ -58,8 +59,9 @@ public class EnemyVehicleController : MonoBehaviour {
 
     private void OnDisable() {
         this.isCrashed = false;
-        this.hp = 10;
+        this.hp = 1;
         this.explosionParticle.gameObject.SetActive(false);
+        this.fireParticle.gameObject.SetActive(false);
         this.explosionAudioSource.gameObject.SetActive(false);
     }
 
@@ -83,10 +85,11 @@ public class EnemyVehicleController : MonoBehaviour {
             Move();
             Rotate();
             SkidMark();
-            Fire();
 
             StartCoroutine("Reset");
         }
+        for (int i = 0; i < path.corners.Length - 1; i++)
+            Debug.DrawLine(path.corners[i], path.corners[i + 1], Color.red);
     }
 
     private bool Grounded() {
@@ -99,22 +102,37 @@ public class EnemyVehicleController : MonoBehaviour {
     }
 
     private void Move() {
-        if (this.chaseDistance < 7f) {
-            this.torquePower = 0;
+        if (!this.isCornering || !this.isCrashed) {
+            this.fl.motorTorque = this.torquePower;
+            this.fr.motorTorque = this.torquePower;
+            this.rr.motorTorque = this.torquePower;
+            this.rl.motorTorque = this.torquePower;
         }
-        else {
-            this.torquePower = this._torquePower;
+        else if (this.isCrashed) {
+            this.fl.brakeTorque = this.torquePower * 5;
+            this.fr.brakeTorque = this.torquePower * 5;
+            this.rr.brakeTorque = this.torquePower * 5;
+            this.rl.brakeTorque = this.torquePower * 5;
         }
-
-        this.fl.motorTorque = this.torquePower;
-        this.fr.motorTorque = this.torquePower;
-        this.rr.motorTorque = this.torquePower;
-        this.rl.motorTorque = this.torquePower;
     }
 
     private void Rotate() {
         if (this.path.corners.Length > 1) {
             this.direction = transform.position - this.path.corners[1];
+            if (this.rb.velocity.magnitude > this.corneringSpeed && Vector3.Distance(transform.position, this.path.corners[1]) < 30) {
+                this.isCornering = true;
+                this.fl.brakeTorque = this.torquePower * 5;
+                this.fr.brakeTorque = this.torquePower * 5;
+                this.rr.brakeTorque = this.torquePower * 5;
+                this.rl.brakeTorque = this.torquePower * 5;
+            }
+            else {
+                this.isCornering = false;
+                this.fl.brakeTorque = 0;
+                this.fr.brakeTorque = 0;
+                this.rr.brakeTorque = 0;
+                this.rl.brakeTorque = 0;
+            }
         }
         else {
             this.direction = transform.position - this.target.position;
@@ -135,15 +153,6 @@ public class EnemyVehicleController : MonoBehaviour {
 
             NavMesh.CalculatePath(transform.position, this.target.position, NavMesh.AllAreas, this.path);
             this.chaseDistance = Vector3.Distance(transform.position, this.target.position);
-        }
-    }
-
-    private void Fire() {
-        if (this.hp <= 5) {
-            this.fireParticle.SetActive(true);
-        }
-        else {
-            this.fireParticle.SetActive(false);
         }
     }
 
@@ -177,12 +186,11 @@ public class EnemyVehicleController : MonoBehaviour {
     }
 
     private IEnumerator Crash() {
-        if (this.hp <= 0 && !this.isCrashed) {
-
-            Debug.Log("Crashed");
-            
+        if (this.hp <= 0 && !this.isCrashed) {            
             this.isCrashed = true;
             this.explosionParticle.gameObject.SetActive(true);
+            this.fireParticle.SetActive(true);
+
             this.explosionAudioSource.gameObject.SetActive(true);
 
             GameManager.instance.ScoreUp(10);
@@ -195,16 +203,20 @@ public class EnemyVehicleController : MonoBehaviour {
 
     private void OnCollisionEnter(Collision other) {
         if (other.transform.CompareTag("Obstacle")) {
-            if (Mathf.Abs(this.carVelocity.z) > 20) {
-                this.hp -= 2;
-            }
+            this.hp -= 2;
         }
         else if (other.transform.CompareTag("Police") || other.transform.CompareTag("Player")) {
-            if (Mathf.Abs(this.carVelocity.z) > 20) {
-                this.hp -= 3;
-            }
+            this.hp -= 3;
         }
 
         StartCoroutine("Crash");
+    }
+
+    private void OnDrawGizmos()
+    {
+        // Draw spheres at every corner for debugging
+        if (path == null) return;
+        for (int i = 0; i < path.corners.Length - 1; i++)
+            Gizmos.DrawWireSphere(path.corners[i], 2);
     }
 }

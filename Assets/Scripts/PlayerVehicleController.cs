@@ -14,7 +14,7 @@ public class PlayerVehicleController : MonoBehaviour {
     public VehicleStatus vehicleStatus;
     
     public int hp { get; set; }
-    public bool isMirror { get; set; }
+    public bool isShild { get; set; }
 
     [SerializeField] private LayerMask driveableLayer;
     
@@ -34,9 +34,7 @@ public class PlayerVehicleController : MonoBehaviour {
     [SerializeField] private GameObject explosionParticle;
     [SerializeField] private CinemachineVirtualCamera virtualCamera;
     [SerializeField] private AudioSource explosionAudioSource;
-    [SerializeField] private AudioSource skidAudioSource;
-    [SerializeField] private AudioSource hitAudioSource;
-    
+    [SerializeField] private AudioSource skidAudioSource;    
 
     private float sign;
     private float turnSpeedMultiplyer;
@@ -50,7 +48,8 @@ public class PlayerVehicleController : MonoBehaviour {
 
 
     private void Start() {
-        this.hp = 30;
+        this.hp = 1;
+        this.virtualCamera.m_Lens.FieldOfView = 90;
     }
 
     private void FixedUpdate() {
@@ -58,19 +57,11 @@ public class PlayerVehicleController : MonoBehaviour {
             Move();
             Rotate();
         }
-
-        Fire();    
-    }
-
-
-    private void Fire() {
-        if (this.hp <= 10) {
-            this.fireParticle.SetActive(true);
-        }
     }
 
     public IEnumerator Explosion() {
         this.explosionParticle.SetActive(true);
+        this.fireParticle.SetActive(true);
 
         this.virtualCamera.m_Lens.FieldOfView = 30;
         this.explosionAudioSource.gameObject.SetActive(true);
@@ -121,9 +112,7 @@ public class PlayerVehicleController : MonoBehaviour {
     }
 
     private void Move() {
-        if (Mathf.Abs(PlayerInputManager.instance.verticalInput) > 0.1f) {
-            this.carWheelRigidbody.velocity = Vector3.Lerp(this.carWheelRigidbody.velocity, this.carBodyRigidbody.transform.forward * PlayerInputManager.instance.verticalInput * vehicleStatus.maxSpeed * this.moveSpeedMultiplyer, vehicleStatus.accelaration / 10 * Time.deltaTime);
-        }
+        this.carWheelRigidbody.velocity = Vector3.Lerp(this.carWheelRigidbody.velocity, this.carBodyRigidbody.transform.forward * 1 * vehicleStatus.maxSpeed * this.moveSpeedMultiplyer, vehicleStatus.accelaration / 10 * Time.deltaTime);
 
         // Downforce
         this.carWheelRigidbody.AddForce(-transform.up * vehicleStatus.downforce * this.carWheelRigidbody.mass);
@@ -153,29 +142,28 @@ public class PlayerVehicleController : MonoBehaviour {
     }
 
     private IEnumerator SpeedUp() {
-        this.moveSpeedMultiplyer = 1.5f;
+        this.moveSpeedMultiplyer = 1.2f;
 
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(5f);
 
         this.moveSpeedMultiplyer = 1;
     }
 
+    private IEnumerator Shild() {
+        this.isShild = true;
+
+        yield return new WaitForSeconds(3f);
+
+        this.isShild = false;
+    }
+
     private void OnCollisionEnter(Collision other) {
-        if (other.transform.CompareTag("Obstacle")) {
-            if (Mathf.Abs(this.carVelocity.z) > 20) {
+        if (!this.isShild) {
+            if (other.transform.CompareTag("Obstacle")) {
                 this.hp -= 2;
-                this.hitAudioSource.Play();
             }
-        }
-        else if (other.transform.CompareTag("Police")) {
-            if (this.isMirror) {
-                other.gameObject.GetComponent<EnemyVehicleController>().hp = 0;
-            }
-            else {
-                if (Mathf.Abs(this.carVelocity.z) > 10) {
-                    this.hp -= 3;
-                    this.hitAudioSource.Play();
-                }
+            else if (other.transform.CompareTag("Police")) {
+                this.hp -= 3;
             }
         }
     }

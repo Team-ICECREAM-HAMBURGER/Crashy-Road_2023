@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class ItemController : MonoBehaviour, IItem {
     enum Type {
-        Repair,
-        Mirror,
+        Shild,
         SpeedUp
     }
 
@@ -13,23 +12,15 @@ public class ItemController : MonoBehaviour, IItem {
     
 
     private void OnEnable() {
-        this.itemType = (Type)Random.Range(0, 3);     
+        this.itemType = (Type)Random.Range(0, 2);     
     }
 
     public void Use(GameObject obj) {
         PlayerVehicleController pvc = obj.GetComponent<PlayerVehicleController>();
 
         switch (this.itemType) {
-            case Type.Repair :
-                int playerHp = pvc.hp;
-                
-                if (playerHp < 100) {
-                    playerHp += 5;
-                }
-
-                break;
-            case Type.Mirror :
-                pvc.isMirror = true;
+            case Type.Shild :
+                pvc.StartCoroutine("Shild");
                 break;
             case Type.SpeedUp :
                 pvc.StartCoroutine("SpeedUp");
