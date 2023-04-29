@@ -11,6 +11,7 @@ public class GameOptionController : MonoBehaviour {
     private int oriScreenW;
     private int oriScreenH;
     private static float soundVal = 1;
+    
 
 
     private void Init() {
