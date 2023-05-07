@@ -1,8 +1,3 @@
-// EnemyVehicleController.cs
-/*
-    플레이어를 추적하는 인공지능을 구현합니다.
-*/
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

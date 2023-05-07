@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62f9c1858cb7e4b64b473fc1588009d8, type: 3}
-  m_Name: Vehicle Status
+  m_Script: {fileID: 11500000, guid: f12c96e92a6c1164d9723bec11fba25c, type: 3}
+  m_Name: Player Vehicle Data
   m_EditorClassIdentifier: 
   maxSpeed: 60
-  accelaration: 30
+  accelaration: 3
   turnSpeed: 5500
   gravity: 7
   downforce: 5

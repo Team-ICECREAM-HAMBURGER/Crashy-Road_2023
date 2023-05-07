@@ -1,22 +1,11 @@
-// PlayerVehicleController.cs
-/* 
-    플레이어 자동차의 조작을 제어합니다.
-    앞/뒤/좌/우 이동 및 정지 등 자동차의 움직임과 관련된 기능들을 구현합니다.
-*/
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
-[RequireComponent(typeof(PlayerInputManager))]
-public class PlayerVehicleController : MonoBehaviour {
-    public VehicleStatus vehicleStatus;
-    
-    public int hp { get; set; }
-    public bool isShild { get; set; }
 
-    [SerializeField] private LayerMask driveableLayer;
+public class PlayerVehicleController : MonoBehaviour, IVehicleController {
+
     
     [Header("Physics Settings")]
     [SerializeField] private Rigidbody carWheelRigidbody;
@@ -27,101 +16,109 @@ public class PlayerVehicleController : MonoBehaviour {
     [SerializeField] private AnimationCurve frictionCurve;
     [SerializeField] private AnimationCurve turnCurve;
 
+    [Header("Components")]
+    [SerializeField] private LayerMask driveableLayer;
+    [SerializeField] private PlayerVehicleStatus playerVehicleStatus;     // ScriptableObject
+    [SerializeField] private CinemachineVirtualCamera virtualCamera;
+    [SerializeField] private AudioSource playerAudioSource;
+
     [Header("Visuals")]
     [SerializeField] private Transform[] frontWheels;
     [SerializeField] private TrailRenderer[] skidMarkTrails;
-    [SerializeField] private GameObject fireParticle;
-    [SerializeField] private GameObject explosionParticle;
-    [SerializeField] private CinemachineVirtualCamera virtualCamera;
-    [SerializeField] private AudioSource explosionAudioSource;
-    [SerializeField] private AudioSource skidAudioSource;    
+    [SerializeField] private ParticleSystem fireParticle;
+    [SerializeField] private ParticleSystem explosionParticle;
+    [SerializeField] private AudioClip explosionClip;
+    [SerializeField] private AudioClip driftClip;
 
-    private float sign;
+    [Header("Items")]
+    [SerializeField] private bool isShield;
+    [SerializeField] private bool isSpeedUp;
+
+
+    private bool isCrashed;
     private float turnSpeedMultiplyer;
-    private float moveSpeedMultiplyer = 1;
+    private float moveSpeedMultiplyer;
     private float rayMaxDistance;
-
+    private float horizontalInput;
     private Vector3 carVelocity;
     private Vector3 rayOrigin;
     private Vector3 rayDirection;
     private RaycastHit hit;
 
 
-    private void Start() {
-        this.hp = 1;
+    public void Init() {
         this.virtualCamera.m_Lens.FieldOfView = 90;
+        this.turnSpeedMultiplyer = 1;
+        this.moveSpeedMultiplyer = 1;
+        this.rayMaxDistance = this.carWheelRigidbody.GetComponent<SphereCollider>().radius + 0.2f;
+        this.rayDirection = -transform.up;
+        this.isCrashed = false;
+    }
+
+    private void Start() {
+        Init();
     }
 
     private void FixedUpdate() {
-        if (GroundCheck() && !Crash()) {
-            Move();
+        if (GroundCheck() && !Crash()) {     // 차가 땅에 붙어 있을 때 && 사고가 나지 않았을 때 -> 자동차 조작 가능
+            Movement();
             Rotate();
         }
     }
 
-    public IEnumerator Explosion() {
-        this.explosionParticle.SetActive(true);
-        this.fireParticle.SetActive(true);
-
-        this.virtualCamera.m_Lens.FieldOfView = 30;
-        this.explosionAudioSource.gameObject.SetActive(true);
-
-        yield return new WaitForSeconds(3f);
-
-        this.skidAudioSource.gameObject.SetActive(false);
-
-        GameManager.instance.GameOver();
+    public void Movement() {
+        this.carWheelRigidbody.velocity = Vector3.Lerp(this.carWheelRigidbody.velocity, 
+                                                       this.carBodyRigidbody.transform.forward * this.playerVehicleStatus.maxSpeed * this.moveSpeedMultiplyer, 
+                                                       this.playerVehicleStatus.accelaration * Time.deltaTime);
+        this.carWheelRigidbody.AddForce(-transform.up * this.playerVehicleStatus.downforce * this.carWheelRigidbody.mass);
     }
 
-    private void Rotate() {
-        this.carVelocity = this.carBodyRigidbody.transform.InverseTransformDirection(this.carBodyRigidbody.velocity);
-        this.sign = Mathf.Sign(this.carVelocity.z);
-        this.turnSpeedMultiplyer = this.turnCurve.Evaluate(this.carVelocity.magnitude / 100);
+    public void Rotate() {
+        this.horizontalInput = Input.GetAxis("Horizontal");
+        
 
-        // 마찰 계수 조정
-        if (Mathf.Abs(this.carVelocity.x) > 0) {
+        this.carVelocity = this.carBodyRigidbody.transform.InverseTransformDirection(this.carBodyRigidbody.velocity);
+        this.turnSpeedMultiplyer = this.turnCurve.Evaluate(Mathf.Abs(this.carVelocity.magnitude / 100)) * 100;
+
+        if (Mathf.Abs(this.carVelocity.x) > 0) {    // 차가 좌/우로 회전하고 있을 때 -> 마찰 계수 조정
             this.frictionMaterial.dynamicFriction = this.frictionCurve.Evaluate(Mathf.Abs(this.carVelocity.x / 100));
         }
 
-        // 차량 회전
-        if (PlayerInputManager.instance.verticalInput > 0.1f || this.carVelocity.z > 1) {  // 차가 앞으로 움직일 때, 좌/우
-            this.carBodyRigidbody.AddTorque(Vector3.up * PlayerInputManager.instance.horizontalInput * this.sign * vehicleStatus.turnSpeed * this.turnSpeedMultiplyer * 100);
-        }
-        else if (PlayerInputManager.instance.verticalInput < -0.1f || this.carVelocity.z < -1) {   // 차가 뒤로 움직일 때, 우/좌
-            this.carBodyRigidbody.AddTorque(Vector3.up * PlayerInputManager.instance.horizontalInput * this.sign * vehicleStatus.turnSpeed * this.turnSpeedMultiplyer * 100);
+        if (this.carVelocity.z > 1) {  // 차가 전진하고 있을 때 -> 좌/우 회전
+            this.carBodyRigidbody.AddTorque(Vector3.up * this.horizontalInput * this.playerVehicleStatus.turnSpeed * this.turnSpeedMultiplyer);
         }
 
-        // 스키드 마크
+        foreach (Transform frontWheel in this.frontWheels) {    // 앞바퀴 회전 표현
+            frontWheel.localRotation = Quaternion.Slerp(frontWheel.localRotation, Quaternion.Euler(frontWheel.localRotation.eulerAngles.x, 30 * this.horizontalInput, frontWheel.localRotation.eulerAngles.z), 0.1f);
+        }
+        
+        // 스키드 마크 효과
         if (Mathf.Abs(this.carVelocity.x) > 10) {
-            foreach (TrailRenderer skid in this.skidMarkTrails) {
+            foreach(TrailRenderer skid in this.skidMarkTrails) {
                 skid.emitting = true;
-                this.skidAudioSource.gameObject.SetActive(true);
+                // TODO: 드리프트 사운드 클립 재생
             }
         }
         else {
-            foreach (TrailRenderer skid in this.skidMarkTrails) {
+            foreach(TrailRenderer skid in this.skidMarkTrails) {
                 skid.emitting = false;
-                this.skidAudioSource.gameObject.SetActive(false);
+                // TODO: 드리프트 사운드 클립 정지
             }
         }
+    }
 
-        // 바퀴 회전
-        foreach (Transform frontWheel in this.frontWheels) {
-            frontWheel.localRotation = Quaternion.Slerp(frontWheel.localRotation, Quaternion.Euler(frontWheel.localRotation.eulerAngles.x, 30 * PlayerInputManager.instance.horizontalInput, frontWheel.localRotation.eulerAngles.z), 0.1f);
+    public bool Crash() {
+        if (this.isCrashed) {
+            StartCoroutine("Explosion");
+            return true;
+        }
+        else {
+            return false;
         }
     }
 
-    private void Move() {
-        this.carWheelRigidbody.velocity = Vector3.Lerp(this.carWheelRigidbody.velocity, this.carBodyRigidbody.transform.forward * 1 * vehicleStatus.maxSpeed * this.moveSpeedMultiplyer, vehicleStatus.accelaration / 10 * Time.deltaTime);
-
-        // Downforce
-        this.carWheelRigidbody.AddForce(-transform.up * vehicleStatus.downforce * this.carWheelRigidbody.mass);
-    }
-
-    private bool GroundCheck() {
+    public bool GroundCheck() {
         this.rayOrigin = this.carWheelRigidbody.transform.position;
-        this.rayMaxDistance = this.carWheelRigidbody.GetComponent<SphereCollider>().radius + 0.2f;
-        this.rayDirection = -transform.up;
 
         if (Physics.Raycast(this.rayOrigin, this.rayDirection, out this.hit, this.rayMaxDistance, this.driveableLayer)) {
             return true;
@@ -131,45 +128,36 @@ public class PlayerVehicleController : MonoBehaviour {
         }
     }
 
-    private bool Crash() {
-        if (this.hp <= 0) {
-            StartCoroutine("Explosion");
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
+    private IEnumerator Explosion() {
+        this.explosionParticle.Play();
+        this.fireParticle.Play();
 
-    private IEnumerator SpeedUp() {
-        this.moveSpeedMultiplyer = 1.2f;
-
-        yield return new WaitForSeconds(5f);
-
-        this.moveSpeedMultiplyer = 1;
-    }
-
-    private IEnumerator Shild() {
-        this.isShild = true;
+        this.virtualCamera.m_Lens.FieldOfView = 30;
+        // TODO: 폭발 사운드 클립 재생
+        // TODO: 드리프트 사운드 클립 정지
 
         yield return new WaitForSeconds(3f);
 
-        this.isShild = false;
+        this.explosionParticle.Stop();
+        this.fireParticle.Stop();
+        
+        GameManager.instance.GameOver();
     }
 
     private void OnCollisionEnter(Collision other) {
-        if (!this.isShild) {
-            if (other.transform.CompareTag("Obstacle")) {
-                this.hp -= 2;
+        if (!this.isShield) {
+            if (other.transform.CompareTag("Obstacle") || other.transform.CompareTag("Police")) {
+                this.isCrashed = true;
             }
-            else if (other.transform.CompareTag("Police")) {
-                this.hp -= 3;
+            else {
+                this.isCrashed = false;
             }
         }
     }
 
     private void OnTriggerEnter(Collider other) {
         IItem item = other.GetComponent<IItem>();
+
         if (item != null) {
             item.Use(gameObject);
         }
