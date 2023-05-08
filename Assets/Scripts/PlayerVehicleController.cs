@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
-
 public class PlayerVehicleController : MonoBehaviour, IVehicleController {
 
     
@@ -35,24 +34,24 @@ public class PlayerVehicleController : MonoBehaviour, IVehicleController {
     [SerializeField] private bool isSpeedUp;
 
 
-    private bool isCrashed;
-    private float turnSpeedMultiplyer;
-    private float moveSpeedMultiplyer;
-    private float rayMaxDistance;
-    private float horizontalInput;
-    private Vector3 carVelocity;
-    private Vector3 rayOrigin;
-    private Vector3 rayDirection;
-    private RaycastHit hit;
+    private bool _isCrashed;
+    private float _turnSpeedMultiplier;
+    private float _moveSpeedMultiplier;
+    private float _rayMaxDistance;
+    private float _horizontalInput;
+    private Vector3 _carVelocity;
+    private Vector3 _rayOrigin;
+    private Vector3 _rayDirection;
+    private RaycastHit _hit;
 
 
     public void Init() {
         this.virtualCamera.m_Lens.FieldOfView = 90;
-        this.turnSpeedMultiplyer = 1;
-        this.moveSpeedMultiplyer = 1;
-        this.rayMaxDistance = this.carWheelRigidbody.GetComponent<SphereCollider>().radius + 0.2f;
-        this.rayDirection = -transform.up;
-        this.isCrashed = false;
+        this._turnSpeedMultiplier = 1;
+        this._moveSpeedMultiplier = 1;
+        this._rayMaxDistance = this.carWheelRigidbody.GetComponent<SphereCollider>().radius + 0.2f;
+        this._rayDirection = -transform.up;
+        this._isCrashed = false;
     }
 
     private void Start() {
@@ -68,32 +67,32 @@ public class PlayerVehicleController : MonoBehaviour, IVehicleController {
 
     public void Movement() {
         this.carWheelRigidbody.velocity = Vector3.Lerp(this.carWheelRigidbody.velocity, 
-                                                       this.carBodyRigidbody.transform.forward * this.playerVehicleStatus.maxSpeed * this.moveSpeedMultiplyer, 
-                                                       this.playerVehicleStatus.accelaration * Time.deltaTime);
+                                                       this.carBodyRigidbody.transform.forward * this.playerVehicleStatus.maxSpeed * this._moveSpeedMultiplier, 
+                                                       this.playerVehicleStatus.acceleration * Time.deltaTime);
         this.carWheelRigidbody.AddForce(-transform.up * this.playerVehicleStatus.downforce * this.carWheelRigidbody.mass);
     }
 
     public void Rotate() {
-        this.horizontalInput = Input.GetAxis("Horizontal");
+        this._horizontalInput = Input.GetAxis("Horizontal");
         
 
-        this.carVelocity = this.carBodyRigidbody.transform.InverseTransformDirection(this.carBodyRigidbody.velocity);
-        this.turnSpeedMultiplyer = this.turnCurve.Evaluate(Mathf.Abs(this.carVelocity.magnitude / 100)) * 100;
+        this._carVelocity = this.carBodyRigidbody.transform.InverseTransformDirection(this.carBodyRigidbody.velocity);
+        this._turnSpeedMultiplier = this.turnCurve.Evaluate(Mathf.Abs(this._carVelocity.magnitude / 100)) * 100;
 
-        if (Mathf.Abs(this.carVelocity.x) > 0) {    // 차가 좌/우로 회전하고 있을 때 -> 마찰 계수 조정
-            this.frictionMaterial.dynamicFriction = this.frictionCurve.Evaluate(Mathf.Abs(this.carVelocity.x / 100));
+        if (Mathf.Abs(this._carVelocity.x) > 0) {    // 차가 좌/우로 회전하고 있을 때 -> 마찰 계수 조정
+            this.frictionMaterial.dynamicFriction = this.frictionCurve.Evaluate(Mathf.Abs(this._carVelocity.x / 100));
         }
 
-        if (this.carVelocity.z > 1) {  // 차가 전진하고 있을 때 -> 좌/우 회전
-            this.carBodyRigidbody.AddTorque(Vector3.up * this.horizontalInput * this.playerVehicleStatus.turnSpeed * this.turnSpeedMultiplyer);
+        if (this._carVelocity.z > 1) {  // 차가 전진하고 있을 때 -> 좌/우 회전
+            this.carBodyRigidbody.AddTorque(Vector3.up * this._horizontalInput * this.playerVehicleStatus.turnSpeed * this._turnSpeedMultiplier);
         }
 
         foreach (Transform frontWheel in this.frontWheels) {    // 앞바퀴 회전 표현
-            frontWheel.localRotation = Quaternion.Slerp(frontWheel.localRotation, Quaternion.Euler(frontWheel.localRotation.eulerAngles.x, 30 * this.horizontalInput, frontWheel.localRotation.eulerAngles.z), 0.1f);
+            frontWheel.localRotation = Quaternion.Slerp(frontWheel.localRotation, Quaternion.Euler(frontWheel.localRotation.eulerAngles.x, 30 * this._horizontalInput, frontWheel.localRotation.eulerAngles.z), 0.1f);
         }
         
         // 스키드 마크 효과
-        if (Mathf.Abs(this.carVelocity.x) > 10) {
+        if (Mathf.Abs(this._carVelocity.x) > 10) {
             foreach(TrailRenderer skid in this.skidMarkTrails) {
                 skid.emitting = true;
                 // TODO: 드리프트 사운드 클립 재생
@@ -108,8 +107,8 @@ public class PlayerVehicleController : MonoBehaviour, IVehicleController {
     }
 
     public bool Crash() {
-        if (this.isCrashed) {
-            StartCoroutine("Explosion");
+        if (this._isCrashed) {
+            StartCoroutine(nameof(Explosion));
             return true;
         }
         else {
@@ -118,9 +117,9 @@ public class PlayerVehicleController : MonoBehaviour, IVehicleController {
     }
 
     public bool GroundCheck() {
-        this.rayOrigin = this.carWheelRigidbody.transform.position;
+        this._rayOrigin = this.carWheelRigidbody.transform.position;
 
-        if (Physics.Raycast(this.rayOrigin, this.rayDirection, out this.hit, this.rayMaxDistance, this.driveableLayer)) {
+        if (Physics.Raycast(this._rayOrigin, this._rayDirection, out this._hit, this._rayMaxDistance, this.driveableLayer)) {
             return true;
         }
         else {
@@ -147,10 +146,10 @@ public class PlayerVehicleController : MonoBehaviour, IVehicleController {
     private void OnCollisionEnter(Collision other) {
         if (!this.isShield) {
             if (other.transform.CompareTag("Obstacle") || other.transform.CompareTag("Police")) {
-                this.isCrashed = true;
+                this._isCrashed = true;
             }
             else {
-                this.isCrashed = false;
+                this._isCrashed = false;
             }
         }
     }

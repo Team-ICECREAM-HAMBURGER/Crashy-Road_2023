@@ -8,31 +8,31 @@ public class ItemSpawner : MonoBehaviour {
     [SerializeField] private float spawnTime;
     [SerializeField] private float maxDistance;
 
-    private GameObject player;
-    private ObjectPooling pooling;
+    private GameObject _player;
+    private ObjectPooling _pooling;
     
 
     private void Init() {
-        this.player = GameObject.FindGameObjectWithTag("Player");
-        this.pooling = GetComponent<ObjectPooling>();
+        this._player = GameObject.FindGameObjectWithTag("Player");
+        this._pooling = GetComponent<ObjectPooling>();
 
         GameManager.instance.gameOverHandler += SpawnStop;
     }
 
     private void Start() {
         Init();
-        StartCoroutine("ItemSpawn");
+        StartCoroutine(nameof(ItemSpawn));
     }
 
     IEnumerator ItemSpawn() {
         while (true) {
             yield return new WaitForSeconds(this.spawnTime);
 
-            Vector3 spawnPosition = GetRandomPointOnNavMesh(this.player.transform.position, this.maxDistance);
+            Vector3 spawnPosition = GetRandomPointOnNavMesh(this._player.transform.position, this.maxDistance);
             spawnPosition += Vector3.up * 1.5f;
 
             if (!float.IsInfinity(spawnPosition.x) || !float.IsInfinity(spawnPosition.y) || !float.IsInfinity(spawnPosition.z)) {
-                GameObject item = this.pooling.ActivePoolItem();
+                GameObject item = this._pooling.ActivePoolItem();
                 item.transform.position = spawnPosition;
             }
         }
@@ -47,6 +47,6 @@ public class ItemSpawner : MonoBehaviour {
     }
 
     private void SpawnStop() {
-        StopCoroutine("ItemSpawn");
+        StopCoroutine(nameof(ItemSpawn));
     }
 }

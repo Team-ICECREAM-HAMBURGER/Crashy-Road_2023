@@ -25,23 +25,23 @@ public class EnemyVehicleController : MonoBehaviour {
     [SerializeField] private Light redLight;
     [SerializeField] private Light blueLight;
 
-    private NavMeshPath path;
-    private Rigidbody rb;
-    private Vector3 direction;
-    private Vector3 carVelocity;
-    private float chaseDistance;
-    private float resetDistance;
-    private float pathSearchCoolTime;
-    private bool isCrashed;
-    private bool isCornering;
-    public int hp { get; set; }
+    private NavMeshPath _path;
+    private Rigidbody _rb;
+    private Vector3 _direction;
+    private Vector3 _carVelocity;
+    private float _chaseDistance;
+    private float _resetDistance;
+    private float _pathSearchCoolTime;
+    private bool _isCrashed;
+    private bool _isCornering;
+    public int Hp { get; set; }
 
 
     private void Init() {
         this.target = GameObject.FindWithTag("Player").transform;
-        this.rb = GetComponent<Rigidbody>();
-        this.path = new NavMeshPath();
-        this.hp = 1;
+        this._rb = GetComponent<Rigidbody>();
+        this._path = new NavMeshPath();
+        this.Hp = 1;
     }
 
     private void Start() {
@@ -49,12 +49,12 @@ public class EnemyVehicleController : MonoBehaviour {
     }
 
     private void OnEnable() {
-        StartCoroutine("Lighting");
+        StartCoroutine(nameof(Lighting));
     }
 
     private void OnDisable() {
-        this.isCrashed = false;
-        this.hp = 1;
+        this._isCrashed = false;
+        this.Hp = 1;
         this.explosionParticle.gameObject.SetActive(false);
         this.fireParticle.gameObject.SetActive(false);
         this.explosionAudioSource.gameObject.SetActive(false);
@@ -75,35 +75,31 @@ public class EnemyVehicleController : MonoBehaviour {
     }
 
     private void FixedUpdate() {
-        if (Grounded() && !this.isCrashed) {
+        if (Grounded() && !this._isCrashed) {
             Pathing();
             Move();
             Rotate();
             SkidMark();
 
-            StartCoroutine("Reset");
+            StartCoroutine(nameof(Reset));
         }
-        for (int i = 0; i < path.corners.Length - 1; i++)
-            Debug.DrawLine(path.corners[i], path.corners[i + 1], Color.red);
+        for (int i = 0; i < _path.corners.Length - 1; i++)
+            Debug.DrawLine(_path.corners[i], _path.corners[i + 1], Color.red);
     }
 
-    private bool Grounded() {
-        if (Physics.Raycast(transform.position, -transform.up, 2f, this.driveableLayer)) {
-            return true;
-        }
-        else {
-            return false;
-        }
+    private bool Grounded()
+    {
+        return Physics.Raycast(transform.position, -transform.up, 2f, this.driveableLayer);
     }
 
     private void Move() {
-        if (!this.isCornering || !this.isCrashed) {
+        if (!this._isCornering || !this._isCrashed) {
             this.fl.motorTorque = this.torquePower;
             this.fr.motorTorque = this.torquePower;
             this.rr.motorTorque = this.torquePower;
             this.rl.motorTorque = this.torquePower;
         }
-        else if (this.isCrashed) {
+        else if (this._isCrashed) {
             this.fl.brakeTorque = this.torquePower * 5;
             this.fr.brakeTorque = this.torquePower * 5;
             this.rr.brakeTorque = this.torquePower * 5;
@@ -112,17 +108,17 @@ public class EnemyVehicleController : MonoBehaviour {
     }
 
     private void Rotate() {
-        if (this.path.corners.Length > 1) {
-            this.direction = transform.position - this.path.corners[1];
-            if (this.rb.velocity.magnitude > this.corneringSpeed && Vector3.Distance(transform.position, this.path.corners[1]) < 30) {
-                this.isCornering = true;
+        if (this._path.corners.Length > 1) {
+            this._direction = transform.position - this._path.corners[1];
+            if (this._rb.velocity.magnitude > this.corneringSpeed && Vector3.Distance(transform.position, this._path.corners[1]) < 30) {
+                this._isCornering = true;
                 this.fl.brakeTorque = this.torquePower * 5;
                 this.fr.brakeTorque = this.torquePower * 5;
                 this.rr.brakeTorque = this.torquePower * 5;
                 this.rl.brakeTorque = this.torquePower * 5;
             }
             else {
-                this.isCornering = false;
+                this._isCornering = false;
                 this.fl.brakeTorque = 0;
                 this.fr.brakeTorque = 0;
                 this.rr.brakeTorque = 0;
@@ -130,24 +126,24 @@ public class EnemyVehicleController : MonoBehaviour {
             }
         }
         else {
-            this.direction = transform.position - this.target.position;
+            this._direction = transform.position - this.target.position;
         }
 
-        this.direction = gameObject.transform.InverseTransformDirection(this.direction);
-        this.direction.Normalize();
+        this._direction = gameObject.transform.InverseTransformDirection(this._direction);
+        this._direction.Normalize();
 
-        this.fl.steerAngle = Mathf.Clamp(-this.direction.x * 100, -45, 45);
-        this.fr.steerAngle = Mathf.Clamp(-this.direction.x * 100, -45, 45);
+        this.fl.steerAngle = Mathf.Clamp(-this._direction.x * 100, -45, 45);
+        this.fr.steerAngle = Mathf.Clamp(-this._direction.x * 100, -45, 45);
     }
 
     private void Pathing() {
-        this.pathSearchCoolTime += Time.deltaTime;
+        this._pathSearchCoolTime += Time.deltaTime;
         
-        if (this.pathSearchCoolTime > 0.3f) {
-            this.pathSearchCoolTime = 0;
+        if (this._pathSearchCoolTime > 0.3f) {
+            this._pathSearchCoolTime = 0;
 
-            NavMesh.CalculatePath(transform.position, this.target.position, NavMesh.AllAreas, this.path);
-            this.chaseDistance = Vector3.Distance(transform.position, this.target.position);
+            NavMesh.CalculatePath(transform.position, this.target.position, NavMesh.AllAreas, this._path);
+            this._chaseDistance = Vector3.Distance(transform.position, this.target.position);
         }
     }
 
@@ -166,9 +162,9 @@ public class EnemyVehicleController : MonoBehaviour {
     }
 
     private void SkidMark() {
-        this.carVelocity = this.rb.transform.InverseTransformDirection(this.rb.velocity);
+        this._carVelocity = this._rb.transform.InverseTransformDirection(this._rb.velocity);
 
-        if (Mathf.Abs(this.carVelocity.x) > 10) {
+        if (Mathf.Abs(this._carVelocity.x) > 10) {
             foreach (TrailRenderer skid in this.skidMarkTrails) {
                 skid.emitting = true;
             }
@@ -181,8 +177,8 @@ public class EnemyVehicleController : MonoBehaviour {
     }
 
     private IEnumerator Crash() {
-        if (this.hp <= 0 && !this.isCrashed) {            
-            this.isCrashed = true;
+        if (this.Hp <= 0 && !this._isCrashed) {            
+            this._isCrashed = true;
             this.explosionParticle.gameObject.SetActive(true);
             this.fireParticle.SetActive(true);
 
@@ -198,20 +194,20 @@ public class EnemyVehicleController : MonoBehaviour {
 
     private void OnCollisionEnter(Collision other) {
         if (other.transform.CompareTag("Obstacle")) {
-            this.hp -= 2;
+            this.Hp -= 2;
         }
         else if (other.transform.CompareTag("Police") || other.transform.CompareTag("Player")) {
-            this.hp -= 3;
+            this.Hp -= 3;
         }
 
-        StartCoroutine("Crash");
+        StartCoroutine(nameof(Crash));
     }
 
     private void OnDrawGizmos()
     {
         // Draw spheres at every corner for debugging
-        if (path == null) return;
-        for (int i = 0; i < path.corners.Length - 1; i++)
-            Gizmos.DrawWireSphere(path.corners[i], 2);
+        if (_path == null) return;
+        for (int i = 0; i < _path.corners.Length - 1; i++)
+            Gizmos.DrawWireSphere(_path.corners[i], 2);
     }
 }

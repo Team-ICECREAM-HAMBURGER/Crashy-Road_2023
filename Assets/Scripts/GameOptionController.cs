@@ -8,18 +8,18 @@ public class GameOptionController : MonoBehaviour {
     [SerializeField] private AudioMixer mainMixer;
     [SerializeField] private Scrollbar soundBar;
 
-    private int oriScreenW;
-    private int oriScreenH;
-    private static float soundVal = 1;
+    private int _oriScreenW;
+    private int _oriScreenH;
+    private static float _soundVal = 1;
     
 
 
     private void Init() {
-        this.oriScreenW = Screen.currentResolution.width;
-        this.oriScreenH = Screen.currentResolution.height;
+        this._oriScreenW = Screen.currentResolution.width;
+        this._oriScreenH = Screen.currentResolution.height;
 
-        this.soundBar.value = soundVal;
-        SoundControl(soundVal);
+        this.soundBar.value = _soundVal;
+        SoundControl(_soundVal);
     }
 
     private void Start() {
@@ -29,7 +29,7 @@ public class GameOptionController : MonoBehaviour {
     public void Resolution(int num) {
         switch (num) {
             case 1 :
-                Screen.SetResolution(this.oriScreenW, this.oriScreenH, FullScreenMode.FullScreenWindow);
+                Screen.SetResolution(this._oriScreenW, this._oriScreenH, FullScreenMode.FullScreenWindow);
                 break;
             case 2 :
                 Screen.SetResolution(1920, 1080, FullScreenMode.FullScreenWindow);
@@ -62,7 +62,7 @@ public class GameOptionController : MonoBehaviour {
     }
 
     public void SoundControl(float value) {
-        soundVal = value;
+        _soundVal = value;
         this.soundBar.value = value;
         this.mainMixer.SetFloat("Master", Mathf.Log10(value + 0.0001f)*20);
     }

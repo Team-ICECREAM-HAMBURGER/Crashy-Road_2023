@@ -56,7 +56,7 @@ namespace ArcadeVP
         private void Update()
         {
             horizontalInput = Input.GetAxis("Horizontal"); //turning input
-            verticalInput = Input.GetAxis("Vertical");     //accelaration input
+            verticalInput = Input.GetAxis("Vertical");     //acceleration input
             Visuals();
             AudioManager();
 
@@ -110,7 +110,7 @@ namespace ArcadeVP
                     rb.constraints = RigidbodyConstraints.None;
                 }
 
-                //accelaration logic
+                //acceleration logic
 
                 if (movementMode == MovementMode.AngularVelocity)
                 {

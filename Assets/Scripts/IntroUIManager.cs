@@ -26,7 +26,7 @@ public class IntroUIManager : MonoBehaviour {
 
     [SerializeField] private GameObject loadingSceneCanvas;
 
-    private GameObject prevTab;
+    private GameObject _prevTab;
 
 
     private void Init() {
@@ -40,7 +40,7 @@ public class IntroUIManager : MonoBehaviour {
 
         this.loadingSceneCanvas.SetActive(false);
 
-        this.prevTab = this.graphicTab;
+        this._prevTab = this.graphicTab;
     }
 
     private void Start() {
@@ -61,11 +61,11 @@ public class IntroUIManager : MonoBehaviour {
     }
 
     private void OptionTab(GameObject tab) {
-        if (this.prevTab.activeInHierarchy) {
-            this.prevTab.SetActive(false);
+        if (this._prevTab.activeInHierarchy) {
+            this._prevTab.SetActive(false);
         }
         
-        this.prevTab = tab;
+        this._prevTab = tab;
 
         tab.SetActive(true);
     }

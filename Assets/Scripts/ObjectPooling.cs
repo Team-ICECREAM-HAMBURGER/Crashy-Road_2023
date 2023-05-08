@@ -1,8 +1,3 @@
-// ObjectPooling.cs
-/*
-    오브젝트를 생성할 때 사용되는 Pooling 기법을 구현합니다.
-*/
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,18 +10,18 @@ public class ObjectPooling : MonoBehaviour {
 
     [SerializeField] private GameObject objectPrefab;
     
-    private List<PoolingObject> poolingObjects;
-    private float maxCount;
-    private float addCount;
-    private float activeCount;
+    private List<PoolingObject> _poolingObjects;
+    private float _maxCount;
+    private float _addCount;
+    private float _activeCount;
     
 
     private void Init() {
-        this.poolingObjects = new List<PoolingObject>();
+        this._poolingObjects = new List<PoolingObject>();
 
-        this.maxCount = 0;
-        this.addCount = 5;
-        this.activeCount = 0;
+        this._maxCount = 0;
+        this._addCount = 5;
+        this._activeCount = 0;
 
         AddPoolItem();
     }
@@ -36,9 +31,9 @@ public class ObjectPooling : MonoBehaviour {
     }
     
     public void AddPoolItem() {
-        this.maxCount += this.addCount;
+        this._maxCount += this._addCount;
 
-        for (int i = 0; i < this.addCount; i++) {
+        for (int i = 0; i < this._addCount; i++) {
             PoolingObject poolingObject = new PoolingObject();
 
             poolingObject.prefab = GameObject.Instantiate(this.objectPrefab);
@@ -46,24 +41,24 @@ public class ObjectPooling : MonoBehaviour {
         
             poolingObject.isActive = false;
 
-            this.poolingObjects.Add(poolingObject);
+            this._poolingObjects.Add(poolingObject);
         }
     }
 
     public GameObject ActivePoolItem() {
-        if (this.poolingObjects == null) {
+        if (this._poolingObjects == null) {
             return null;
         }
 
-        if (this.maxCount == this.activeCount) {
+        if (this._maxCount == this._activeCount) {
             AddPoolItem();
         }
 
-        foreach (PoolingObject obj in this.poolingObjects) {
+        foreach (PoolingObject obj in this._poolingObjects) {
             if (!obj.isActive) {
                 obj.isActive = true;
                 obj.prefab.SetActive(true);
-                this.activeCount += 1;
+                this._activeCount += 1;
 
                 return obj.prefab;
             }
@@ -73,15 +68,15 @@ public class ObjectPooling : MonoBehaviour {
     }
 
     public void DeActivePoolItem(GameObject deActiveObject) {
-        if (this.poolingObjects == null) {
+        if (this._poolingObjects == null) {
             return; 
         }
 
-        foreach (PoolingObject obj in this.poolingObjects) {
+        foreach (PoolingObject obj in this._poolingObjects) {
             if (obj.prefab == deActiveObject) {
                 obj.prefab.SetActive(false);
                 obj.isActive = false;
-                this.activeCount -= 1;
+                this._activeCount -= 1;
 
                 return;
             }

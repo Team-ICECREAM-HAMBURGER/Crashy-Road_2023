@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class CameraHovering : MonoBehaviour {
-    [SerializeField] private float hoversingSpeed;
+    [SerializeField] private float hoveringSpeed;
 
     
     private void Update() {
@@ -11,6 +12,6 @@ public class CameraHovering : MonoBehaviour {
             return;
         } 
         
-        transform.Translate(Vector3.left * this.hoversingSpeed * Time.deltaTime);
+        transform.Translate(Vector3.left * this.hoveringSpeed * Time.deltaTime);
     }
 }

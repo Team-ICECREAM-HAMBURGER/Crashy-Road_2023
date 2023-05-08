@@ -30,11 +30,11 @@ public class GameUIManager : MonoBehaviour {
     [SerializeField] private Button closeButton;
     [SerializeField] private GameObject[] rulePages;
 
-    private int index;
+    private int _index;
 
 
     private void Init() {
-        this.index = 0;
+        this._index = 0;
 
         this.pauseButton.onClick.AddListener(GamePause);
 
@@ -61,7 +61,7 @@ public class GameUIManager : MonoBehaviour {
     }
 
     private void Update() {
-        this.scoreText.text = GameManager.instance.score.ToString();
+        this.scoreText.text = GameManager.instance.Score.ToString();
     }
 
     private void GamePause() {
@@ -87,7 +87,7 @@ public class GameUIManager : MonoBehaviour {
     private void GameOver() {
         Time.timeScale = 0;
         this.gameOverMenuCanvas.SetActive(true);
-        this.highScoreText.text = "Best Record" + "\n" + GameManager.instance.highScore.ToString();
+        this.highScoreText.text = "Best Record" + "\n" + GameManager.instance.HighScore.ToString();
     }
 
     public IEnumerator ItemGet(string name) {
@@ -105,21 +105,21 @@ public class GameUIManager : MonoBehaviour {
         }
 
         if (way == 1) {         // LEFT
-            if (this.index <= 0) {
-                this.index = this.rulePages.Length;
+            if (this._index <= 0) {
+                this._index = this.rulePages.Length;
             }
 
-            this.index -= 1;
+            this._index -= 1;
         }
         else if (way == -1) {   // RIGHT
-            if (this.index >= this.rulePages.Length-1) {
-                this.index = -1;
+            if (this._index >= this.rulePages.Length-1) {
+                this._index = -1;
             }
 
-            this.index += 1;
+            this._index += 1;
         }
 
-        this.rulePages[this.index].SetActive(true);
+        this.rulePages[this._index].SetActive(true);
     }
 
     private void TutorialPageClose() {

@@ -16,8 +16,8 @@ public class GameManager : MonoBehaviour {
     [SerializeField] private ObjectPooling itemPooling;
     [SerializeField] private GameUIManager gameUIManager;
 
-    public int score { get; private set; }
-    public int highScore { get; private set; }
+    public int Score { get; private set; }
+    public int HighScore { get; private set; }
 
     public delegate void GameOverHandler();
     public event GameOverHandler gameOverHandler;
@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour {
         
         instance = this;
 
-        this.score = 0;
+        this.Score = 0;
         LoadHighScore();
 
         Time.timeScale = 0;
@@ -44,18 +44,18 @@ public class GameManager : MonoBehaviour {
     }
 
     private void Start() {
-        StartCoroutine("TimeScoreCounter");
+        StartCoroutine(nameof(TimeScoreCounter));
     }
 
     public void GameOver() {        
-        StopCoroutine("TimeScoreCounter");
+        StopCoroutine(nameof(TimeScoreCounter));
         this.gameOverHandler();
     }
 
     private IEnumerator TimeScoreCounter() {
         while(true) {
             yield return new WaitForSeconds(1f);
-            this.score += 1;
+            this.Score += 1;
         }
     }
 
@@ -68,21 +68,21 @@ public class GameManager : MonoBehaviour {
     }
 
     public void ScoreUp(int score) {
-        this.score += score;
+        this.Score += score;
     }
 
     public void ItemGet(string name) {
-        this.gameUIManager.StartCoroutine("ItemGet", name);
+        this.gameUIManager.StartCoroutine(nameof(GameUIManager.ItemGet), name);
     }
 
     private void SaveHighScore() {
-        if (this.score > this.highScore) {
-            this.highScore = this.score;
+        if (this.Score > this.HighScore) {
+            this.HighScore = this.Score;
         }
         
         SaveData saveData = new SaveData();
         
-        saveData.highScore = this.highScore;
+        saveData.highScore = this.HighScore;
 
         string json = JsonUtility.ToJson(saveData);
         File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
@@ -95,7 +95,7 @@ public class GameManager : MonoBehaviour {
             string json = File.ReadAllText(path);
             SaveData saveData = JsonUtility.FromJson<SaveData>(json);
                 
-            this.highScore = saveData.highScore;
+            this.HighScore = saveData.highScore;
         }
     }
 }
