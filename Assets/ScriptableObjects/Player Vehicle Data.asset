@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Player Vehicle Data
   m_EditorClassIdentifier: 
   maxSpeed: 60
-  accelaration: 3
+  acceleration: 0
   turnSpeed: 5500
   gravity: 7
   downforce: 5

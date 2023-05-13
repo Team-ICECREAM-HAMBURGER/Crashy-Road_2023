@@ -28,6 +28,6 @@ public class ItemController : MonoBehaviour, IItem {
         }      
 
         GameManager.instance.ItemGet(this._itemType.ToString());
-        GameManager.instance.ItemDeactive(gameObject);  
+        GameManager.instance.ItemDeactivate(gameObject);  
     }
 }

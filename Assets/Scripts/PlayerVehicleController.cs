@@ -4,8 +4,6 @@ using UnityEngine;
 using Cinemachine;
 
 public class PlayerVehicleController : MonoBehaviour, IVehicleController {
-
-    
     [Header("Physics Settings")]
     [SerializeField] private Rigidbody carWheelRigidbody;
     [SerializeField] private Rigidbody carBodyRigidbody;
@@ -29,12 +27,11 @@ public class PlayerVehicleController : MonoBehaviour, IVehicleController {
     [SerializeField] private AudioClip explosionClip;
     [SerializeField] private AudioClip driftClip;
 
-    [Header("Items")]
+    [Header("Stauts")]
     [SerializeField] private bool isShield;
-    [SerializeField] private bool isSpeedUp;
-
-
-    private bool _isCrashed;
+    [SerializeField] private bool isSpeedUp; 
+    [SerializeField] bool isCrashed;
+    
     private float _turnSpeedMultiplier;
     private float _moveSpeedMultiplier;
     private float _rayMaxDistance;
@@ -51,7 +48,6 @@ public class PlayerVehicleController : MonoBehaviour, IVehicleController {
         this._moveSpeedMultiplier = 1;
         this._rayMaxDistance = this.carWheelRigidbody.GetComponent<SphereCollider>().radius + 0.2f;
         this._rayDirection = -transform.up;
-        this._isCrashed = false;
     }
 
     private void Start() {
@@ -66,16 +62,13 @@ public class PlayerVehicleController : MonoBehaviour, IVehicleController {
     }
 
     public void Movement() {
-        this.carWheelRigidbody.velocity = Vector3.Lerp(this.carWheelRigidbody.velocity, 
-                                                       this.carBodyRigidbody.transform.forward * this.playerVehicleStatus.maxSpeed * this._moveSpeedMultiplier, 
-                                                       this.playerVehicleStatus.acceleration * Time.deltaTime);
-        this.carWheelRigidbody.AddForce(-transform.up * this.playerVehicleStatus.downforce * this.carWheelRigidbody.mass);
+        this.carWheelRigidbody.velocity = Vector3.Lerp(this.carWheelRigidbody.velocity, this.carBodyRigidbody.transform.forward * (this.playerVehicleStatus.maxSpeed * this._moveSpeedMultiplier), this.playerVehicleStatus.acceleration * Time.deltaTime);
+        this.carWheelRigidbody.AddForce(-transform.up * (this.playerVehicleStatus.downforce * this.carWheelRigidbody.mass));
     }
 
     public void Rotate() {
         this._horizontalInput = Input.GetAxis("Horizontal");
         
-
         this._carVelocity = this.carBodyRigidbody.transform.InverseTransformDirection(this.carBodyRigidbody.velocity);
         this._turnSpeedMultiplier = this.turnCurve.Evaluate(Mathf.Abs(this._carVelocity.magnitude / 100)) * 100;
 
@@ -84,7 +77,7 @@ public class PlayerVehicleController : MonoBehaviour, IVehicleController {
         }
 
         if (this._carVelocity.z > 1) {  // 차가 전진하고 있을 때 -> 좌/우 회전
-            this.carBodyRigidbody.AddTorque(Vector3.up * this._horizontalInput * this.playerVehicleStatus.turnSpeed * this._turnSpeedMultiplier);
+            this.carBodyRigidbody.AddTorque(Vector3.up * (this._horizontalInput * this.playerVehicleStatus.turnSpeed * this._turnSpeedMultiplier));
         }
 
         foreach (Transform frontWheel in this.frontWheels) {    // 앞바퀴 회전 표현
@@ -107,8 +100,8 @@ public class PlayerVehicleController : MonoBehaviour, IVehicleController {
     }
 
     public bool Crash() {
-        if (this._isCrashed) {
-            StartCoroutine(nameof(Explosion));
+        if (this.isCrashed) {
+            this._moveSpeedMultiplier = 0;
             return true;
         }
         else {
@@ -123,6 +116,9 @@ public class PlayerVehicleController : MonoBehaviour, IVehicleController {
             return true;
         }
         else {
+            foreach (TrailRenderer skid in this.skidMarkTrails) {
+                skid.Clear();
+            }
             return false;
         }
     }
@@ -146,10 +142,10 @@ public class PlayerVehicleController : MonoBehaviour, IVehicleController {
     private void OnCollisionEnter(Collision other) {
         if (!this.isShield) {
             if (other.transform.CompareTag("Obstacle") || other.transform.CompareTag("Police")) {
-                this._isCrashed = true;
-            }
-            else {
-                this._isCrashed = false;
+                if (!this.isCrashed) {
+                    StartCoroutine(nameof(Explosion));
+                }
+                this.isCrashed = true;
             }
         }
     }

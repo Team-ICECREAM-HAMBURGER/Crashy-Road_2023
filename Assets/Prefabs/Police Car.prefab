@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 832057011417578282}
   - component: {fileID: 737170079060226222}
+  - component: {fileID: 4952381089533189496}
   m_Layer: 0
   m_Name: Point Light Red
   m_TagString: Untagged
@@ -44,8 +45,8 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 0, b: 0, a: 1}
-  m_Intensity: 5
-  m_Range: 3
+  m_Intensity: 500
+  m_Range: 20
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -86,7 +87,7 @@ Light:
   m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 5
+  m_BounceIntensity: 50
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
@@ -94,6 +95,26 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &4952381089533189496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1622241325268301336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 1
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
 --- !u!1 &1695128727045034816
 GameObject:
   m_ObjectHideFlags: 0
@@ -177,29 +198,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99217817b61316d43a30ab3ace111b16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  torquePower: 2000
   driveableLayer:
     serializedVersion: 2
     m_Bits: 64
-  corneringSpeed: 30
+  enemyAudioSource: {fileID: -1236153304563139937}
+  enemyVehicleStatus: {fileID: 11400000, guid: 561bcc8d6b61d854ba14c7be5e1d00d9, type: 2}
   fl: {fileID: 1695128727046295369}
   fr: {fileID: 1695128727046295371}
   rl: {fileID: 1695128727046295373}
   rr: {fileID: 1695128727046295375}
-  frontWheels:
-  - {fileID: 1695128727045001064}
-  - {fileID: 1695128727045001066}
   skidMarkTrails:
   - {fileID: 1695128728712729222}
   - {fileID: 1695128728279183869}
   - {fileID: 1695128727225828101}
   - {fileID: 1695128728648070749}
-  fireParticle: {fileID: 1444920765611771819}
-  explosionParticle: {fileID: 1124755616599461869}
-  explosionAudioSource: {fileID: 1778297174875886339}
+  fireParticle: {fileID: 1642407702076706223}
+  explosionParticle: {fileID: 963105745264657323}
+  explosionClip: {fileID: 8300000, guid: 60147a96ada052f4492b1ef177dcd981, type: 3}
   redLight: {fileID: 737170079060226222}
   blueLight: {fileID: 8843111641854763082}
+  isCrashed: 0
+  isCornering: 0
 --- !u!82 &-1236153304563139937
 AudioSource:
   m_ObjectHideFlags: 0
@@ -210,7 +229,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: cfa76bef6c7441649bfa3732ba9e5339, type: 2}
-  m_audioClip: {fileID: 8300000, guid: c670f672210538f41acd1a7e9ef18923, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 0.1
   m_Pitch: 1
@@ -1408,6 +1427,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6050730819565261043}
   - component: {fileID: 8843111641854763082}
+  - component: {fileID: 1745349088}
   m_Layer: 0
   m_Name: Point Light Blue
   m_TagString: Untagged
@@ -1442,8 +1462,8 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 0, g: 0.1911912, b: 1, a: 1}
-  m_Intensity: 5
-  m_Range: 3
+  m_Intensity: 500
+  m_Range: 20
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -1484,7 +1504,7 @@ Light:
   m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 5
+  m_BounceIntensity: 50
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
@@ -1492,6 +1512,26 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &1745349088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4683242794643888563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 1
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
 --- !u!1 &6513598495853233882
 GameObject:
   m_ObjectHideFlags: 0
@@ -1633,7 +1673,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1809022330002312, guid: ed511b7776af6174e9b1255c7a81e59c, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4150649967365504, guid: ed511b7776af6174e9b1255c7a81e59c, type: 3}
       propertyPath: m_RootOrder
@@ -1695,6 +1735,18 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 198192500169632356, guid: ed511b7776af6174e9b1255c7a81e59c, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198195352207415246, guid: ed511b7776af6174e9b1255c7a81e59c, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198212443826252400, guid: ed511b7776af6174e9b1255c7a81e59c, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 199019332059290098, guid: ed511b7776af6174e9b1255c7a81e59c, type: 3}
       propertyPath: m_Materials.Array.size
       value: 1
@@ -1709,14 +1761,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ed511b7776af6174e9b1255c7a81e59c, type: 3}
+--- !u!198 &963105745264657323 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 198195352207415246, guid: ed511b7776af6174e9b1255c7a81e59c, type: 3}
+  m_PrefabInstance: {fileID: 1125198478550996069}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1122307748654209509 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4150649967365504, guid: ed511b7776af6174e9b1255c7a81e59c, type: 3}
-  m_PrefabInstance: {fileID: 1125198478550996069}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1124755616599461869 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1809022330002312, guid: ed511b7776af6174e9b1255c7a81e59c, type: 3}
   m_PrefabInstance: {fileID: 1125198478550996069}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1443844739320521355
@@ -1732,7 +1784,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1392961458021664, guid: 7c2d45330a7b1894ca1aacb0ebd30599, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4512300890362992, guid: 7c2d45330a7b1894ca1aacb0ebd30599, type: 3}
       propertyPath: m_RootOrder
@@ -1794,15 +1846,23 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 198530374370927092, guid: 7c2d45330a7b1894ca1aacb0ebd30599, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198879910538899236, guid: 7c2d45330a7b1894ca1aacb0ebd30599, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7c2d45330a7b1894ca1aacb0ebd30599, type: 3}
---- !u!1 &1444920765611771819 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1392961458021664, guid: 7c2d45330a7b1894ca1aacb0ebd30599, type: 3}
-  m_PrefabInstance: {fileID: 1443844739320521355}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1448354549868050171 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4512300890362992, guid: 7c2d45330a7b1894ca1aacb0ebd30599, type: 3}
+  m_PrefabInstance: {fileID: 1443844739320521355}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &1642407702076706223 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 198879910538899236, guid: 7c2d45330a7b1894ca1aacb0ebd30599, type: 3}
   m_PrefabInstance: {fileID: 1443844739320521355}
   m_PrefabAsset: {fileID: 0}

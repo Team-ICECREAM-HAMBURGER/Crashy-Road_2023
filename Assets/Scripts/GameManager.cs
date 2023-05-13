@@ -59,11 +59,11 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    public void EnemyDeactive(GameObject obj) {
+    public void EnemyDeactivate(GameObject obj) {
         this.enemyPooling.DeActivePoolItem(obj);
     }
 
-    public void ItemDeactive(GameObject obj) {
+    public void ItemDeactivate(GameObject obj) {
         this.itemPooling.DeActivePoolItem(obj);
     }
 

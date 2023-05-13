@@ -7563,8 +7563,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b19ce08cb349f0c44b046f8779d46c5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnTime: 1
-  spanwPoints:
+  spawnTime: 2
+  spawnPoints:
   - {fileID: 179565547}
   - {fileID: 1803692828}
   - {fileID: 639919433}
@@ -9920,7 +9920,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2128234572}
-  m_LocalRotation: {x: 0.61541224, y: -0.000000013979556, z: 0.000000010914907, w: 0.78820544}
+  m_LocalRotation: {x: 0.61541224, y: 0.000000013979556, z: -0.000000010914907, w: 0.78820544}
   m_LocalPosition: {x: -46, y: 41.51, z: 75.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -10228,7 +10228,7 @@ ParticleSystem:
   emitterVelocityMode: 0
   looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -15005,7 +15005,7 @@ ParticleSystem:
   emitterVelocityMode: 0
   looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -19782,7 +19782,7 @@ ParticleSystem:
   emitterVelocityMode: 0
   looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -24600,7 +24600,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &750381662295329649
 GameObject:
   m_ObjectHideFlags: 0
@@ -24714,7 +24714,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1465847732612763545}
-  m_LocalRotation: {x: 0.61541224, y: -0.000000013979556, z: 0.000000010914907, w: 0.78820544}
+  m_LocalRotation: {x: 0.61541224, y: 0.000000013979556, z: -0.000000010914907, w: 0.78820544}
   m_LocalPosition: {x: 0, y: 40, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -24877,6 +24877,7 @@ MonoBehaviour:
   driftClip: {fileID: 8300000, guid: 8a160ebd956d846418d2bc192d306157, type: 3}
   isShield: 0
   isSpeedUp: 0
+  isCrashed: 0
 --- !u!54 &1465847732627743735
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -25661,6 +25662,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8188791889134017812, guid: f8db9e0938f057243a992b9a53f0aaa6, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9125434508599404371, guid: f8db9e0938f057243a992b9a53f0aaa6, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f8db9e0938f057243a992b9a53f0aaa6, type: 3}
 --- !u!198 &5264778251990369562
@@ -25680,7 +25689,7 @@ ParticleSystem:
   emitterVelocityMode: 1
   looping: 1
   prewarm: 1
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -30138,7 +30147,7 @@ ParticleSystem:
   emitterVelocityMode: 1
   looping: 1
   prewarm: 1
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -34758,7 +34767,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5466987543338212220
 Transform:
   m_ObjectHideFlags: 0

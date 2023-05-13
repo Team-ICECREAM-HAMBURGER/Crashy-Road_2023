@@ -13,7 +13,7 @@ public class WaterDie : MonoBehaviour {
                 GameManager.instance.GameOver();
             }
             else if (other.gameObject.CompareTag("Police")) {
-                GameManager.instance.EnemyDeactive(other.gameObject);
+                GameManager.instance.EnemyDeactivate(other.gameObject);
                 GameManager.instance.ScoreUp(10);
             }
             other.gameObject.SetActive(false);
