@@ -88,15 +88,14 @@ public class EnemyVehicleController : MonoBehaviour, IVehicleController {
         }
     }
     
-    private IEnumerator Explosion() {
+    public void Explosion() {
+        GameManager.instance.ScoreUp(this.enemyVehicleStatus.score);    // 점수 카운트
+        
         this.explosionParticle.Play();
         this.fireParticle.Play();
         
-        // TODO: 폭발 사운드 클립 재생
-
-        yield return new WaitForSeconds(5f);
-        
-        GameManager.instance.EnemyDeactivate(gameObject);   // 풀링 리스트 복귀
+        this.enemyAudioSource.Stop();
+        this.enemyAudioSource.PlayOneShot(this.explosionClip);
     }
     
     public void Movement() {
@@ -179,8 +178,7 @@ public class EnemyVehicleController : MonoBehaviour, IVehicleController {
     private void OnCollisionEnter(Collision other) {
         if (other.transform.CompareTag("Obstacle") || other.transform.CompareTag("Player") || other.transform.CompareTag("Police")) {
             if (!this.isCrashed) {
-                GameManager.instance.ScoreUp(this.enemyVehicleStatus.score);    // 점수 카운트
-                StartCoroutine(nameof(Explosion));
+                Explosion();
             }
             
             this.isCrashed = true;

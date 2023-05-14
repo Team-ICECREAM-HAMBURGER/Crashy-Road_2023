@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6232365}
   - component: {fileID: 6232364}
+  - component: {fileID: 6232366}
   - component: {fileID: 6232363}
   m_Layer: 0
   m_Name: BGM Player
@@ -168,6 +169,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 27ef0f1a94c969c4b8a725e71a2ddead, type: 3}
   - {fileID: 8300000, guid: ef439300be25aa745b6b7e9256fb48da, type: 3}
   - {fileID: 8300000, guid: db6c62e632da38b44b89b1db67df2944, type: 3}
+  bgmPlayer: {fileID: 6232364}
+  policeSiren: {fileID: 6232366}
 --- !u!82 &6232364
 AudioSource:
   m_ObjectHideFlags: 0
@@ -180,7 +183,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 24300002, guid: cfa76bef6c7441649bfa3732ba9e5339, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -279,6 +282,102 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &6232366
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6232362}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 24300002, guid: cfa76bef6c7441649bfa3732ba9e5339, type: 2}
+  m_audioClip: {fileID: 8300000, guid: c670f672210538f41acd1a7e9ef18923, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 0.1
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &6909987
 GameObject:
   m_ObjectHideFlags: 0
@@ -6531,7 +6630,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1574653241}
   - component: {fileID: 1574653243}
-  - component: {fileID: 1574653242}
   m_Layer: 0
   m_Name: Item Spawner
   m_TagString: Untagged
@@ -6554,19 +6652,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1574653242
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1574653240}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa16b89064fd66d47aefce219974ce0c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objectPrefab: {fileID: 3965329619392333719, guid: 3623a89e394ab824d81ce67108cfa483, type: 3}
 --- !u!114 &1574653243
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6579,6 +6664,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc17b63766110d7459fb8f83ae4519dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectPrefab: {fileID: 3965329619392333719, guid: 3623a89e394ab824d81ce67108cfa483, type: 3}
   spawnTime: 5
   maxDistance: 100
 --- !u!1 &1589547151
@@ -7509,7 +7595,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1760707795}
-  - component: {fileID: 1760707796}
   - component: {fileID: 1760707797}
   m_Layer: 0
   m_Name: Police Car Spawner
@@ -7538,19 +7623,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1760707796
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1760707794}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa16b89064fd66d47aefce219974ce0c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objectPrefab: {fileID: 1695128727045034816, guid: 84bd342978ae3164e91c2e7cca9ccefb, type: 3}
 --- !u!114 &1760707797
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7563,6 +7635,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b19ce08cb349f0c44b046f8779d46c5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectPrefab: {fileID: 1695128727045034816, guid: 84bd342978ae3164e91c2e7cca9ccefb, type: 3}
   spawnTime: 2
   spawnPoints:
   - {fileID: 179565547}
@@ -8975,8 +9048,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f48b39be620a4556a96d28c829eebda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPooling: {fileID: 1760707796}
-  itemPooling: {fileID: 1574653242}
+  itemPooling: {fileID: 0}
   gameUIManager: {fileID: 912794101}
 --- !u!4 &1907322698
 Transform:
@@ -24873,8 +24945,11 @@ MonoBehaviour:
   - {fileID: 1811062994}
   fireParticle: {fileID: 5264778251990369562}
   explosionParticle: {fileID: 625824403069982583}
+  shieldParticle: {fileID: 0}
+  speedUpParticle: {fileID: 0}
   explosionClip: {fileID: 8300000, guid: 60147a96ada052f4492b1ef177dcd981, type: 3}
   driftClip: {fileID: 8300000, guid: 8a160ebd956d846418d2bc192d306157, type: 3}
+  itemGetClip: {fileID: 8300000, guid: 4a83c68d5f1460e48a1372a15a10907a, type: 3}
   isShield: 0
   isSpeedUp: 0
   isCrashed: 0
@@ -25662,6 +25737,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2952321138666653559, guid: f8db9e0938f057243a992b9a53f0aaa6, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: d0aec4b06fcff704cb25a1734a0636b8, type: 3}
     - target: {fileID: 8188791889134017812, guid: f8db9e0938f057243a992b9a53f0aaa6, type: 3}
       propertyPath: m_Enabled
       value: 1

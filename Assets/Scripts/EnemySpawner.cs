@@ -3,18 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-[RequireComponent(typeof(ObjectPooling))]
-public class EnemySpawner : MonoBehaviour {
-    [SerializeField] private float spawnTime;
-    [SerializeField] private List<Transform> spawnPoints;
+public class EnemySpawner : ObjectPooling {
+    public static EnemySpawner instance;
+    
+    [SerializeField] private float spawnTime;               // 적 생성 쿨 타임
+    [SerializeField] private List<Transform> spawnPoints;   // 생성 위치
 
-    private int _index;
-    private ObjectPooling _pooling;
+    private int _index; // spawnPoints list index
 
 
     private void Init() {
+        if (instance == null) {
+            instance = this;
+        }
+        
+        base.Init();
         GameManager.instance.gameOverHandler += SpawnStop;
-        this._pooling = GetComponent<ObjectPooling>();
     }
 
     private void Start() {
@@ -23,8 +27,8 @@ public class EnemySpawner : MonoBehaviour {
     }
 
     IEnumerator EnemySpawn() {
-        while (true) {  // TODO: if player is alive
-            GameObject enemy = this._pooling.ActivePoolItem();    // spawn
+        while (true) {
+            GameObject enemy = base.ActivatePoolItem();    // spawn
 
             this._index = Random.Range(0, this.spawnPoints.Count);
 
@@ -33,6 +37,10 @@ public class EnemySpawner : MonoBehaviour {
 
             yield return new WaitForSeconds(this.spawnTime);    // wait
         }
+    }
+
+    public void EnemyReSpawn(GameObject target) {
+        base.DeActivatePoolItem(target);
     }
 
     private void SpawnStop() {

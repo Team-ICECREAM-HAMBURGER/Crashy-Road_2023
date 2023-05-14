@@ -5,18 +5,48 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="76b57522-21fc-4af3-bff0-e28f15cb6c6b" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Assets/Audio/BGM/background-beautiful-peaceful-kind-relaxing-cinematic-romantic-music-20857.mp3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Audio/BGM/background-beautiful-peaceful-kind-relaxing-cinematic-romantic-music-20857.mp3.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Audio/BGM/business-time-144163.mp3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Audio/BGM/business-time-144163.mp3.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Audio/BGM/upbeat-uplifting-corporate-113442.mp3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Audio/BGM/upbeat-uplifting-corporate-113442.mp3.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Audio/SFX/ItemGet_SFX.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Audio/SFX/ItemGet_SFX.wav.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Audio/SFX/WaterDie_SFX.mp3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Audio/SFX/WaterDie_SFX.mp3.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/InGameBGMPlayer.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/InGameBGMPlayer.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/IntroBGMPlayer.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/IntroBGMPlayer.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Sprites/Cursor.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Sprites/Cursor.png.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Crashy-Road_2023/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Crashy-Road_2023/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Materials/Friction.physicMaterial" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Friction.physicMaterial" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Item.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Item.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Level (Single).prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Level (Single).prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Mouse Pointer.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Mouse Pointer.prefab.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Police Car.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Police Car.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/01.Intro.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/01.Intro.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/02.Main_1.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/02.Main_1.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/ScriptableObjects/Player Vehicle Data.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ScriptableObjects/Player Vehicle Data.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/BGMPlayer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/BGMPlayer.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/EnemySpawner.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/EnemySpawner.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/EnemyVehicleController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/EnemyVehicleController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/EnemyVehicleStatus.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/EnemyVehicleStatus.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/IItem.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/IItem.cs.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/ItemController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ItemController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ItemSpawner.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ItemSpawner.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ObjectPooling.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ObjectPooling.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerVehicleController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerVehicleController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/WaterDie.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/WaterDie.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,20 +58,28 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/PlayerVehicleStatus.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../Zombie/Assets/Scripts/AmmoPack.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../Zombie/Assets/Scripts/Coin.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2PVvC1VIQT5MDNTgIk0J9uNfT8x" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
+    "XThreadsFramesViewSplitterKey": "0.15291937",
     "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -92,10 +130,10 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="14960">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" />
+      <option name="pid" value="14960" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -113,7 +151,8 @@
       <updated>1683554935894</updated>
       <workItem from="1683554938457" duration="873000" />
       <workItem from="1683563310412" duration="50000" />
-      <workItem from="1683974629410" duration="17569000" />
+      <workItem from="1683974629410" duration="17593000" />
+      <workItem from="1684032253877" duration="26077000" />
     </task>
     <servers />
   </component>
@@ -123,6 +162,7 @@
   <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="Both" />
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
 </project>

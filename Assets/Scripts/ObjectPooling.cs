@@ -11,23 +11,18 @@ public class ObjectPooling : MonoBehaviour {
     [SerializeField] private GameObject objectPrefab;
     
     private List<PoolingObject> _poolingObjects;
-    private float _maxCount;
-    private float _addCount;
-    private float _activeCount;
+    private int _maxCount;
+    private int _addCount;
+    private int _activeCount;
     
 
-    private void Init() {
+    public void Init() {
         this._poolingObjects = new List<PoolingObject>();
-
         this._maxCount = 0;
         this._addCount = 5;
         this._activeCount = 0;
 
         AddPoolItem();
-    }
-
-    private void Start() {
-        Init();
     }
     
     public void AddPoolItem() {
@@ -38,14 +33,12 @@ public class ObjectPooling : MonoBehaviour {
 
             poolingObject.prefab = GameObject.Instantiate(this.objectPrefab);
             poolingObject.prefab.SetActive(false);
-        
             poolingObject.isActive = false;
-
             this._poolingObjects.Add(poolingObject);
         }
     }
 
-    public GameObject ActivePoolItem() {
+    public GameObject ActivatePoolItem() {
         if (this._poolingObjects == null) {
             return null;
         }
@@ -67,7 +60,7 @@ public class ObjectPooling : MonoBehaviour {
         return null;
     }
 
-    public void DeActivePoolItem(GameObject deActiveObject) {
+    public void DeActivatePoolItem(GameObject deActiveObject) {
         if (this._poolingObjects == null) {
             return; 
         }

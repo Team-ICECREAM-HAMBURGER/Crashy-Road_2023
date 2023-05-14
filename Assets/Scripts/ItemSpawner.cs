@@ -3,19 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(ObjectPooling))]
-public class ItemSpawner : MonoBehaviour {
+public class ItemSpawner : ObjectPooling {
+    public static ItemSpawner instance;
+    
     [SerializeField] private float spawnTime;
     [SerializeField] private float maxDistance;
 
     private GameObject _player;
-    private ObjectPooling _pooling;
     
 
     private void Init() {
+        if (instance == null) {
+            instance = this;
+        }
+        
         this._player = GameObject.FindGameObjectWithTag("Player");
-        this._pooling = GetComponent<ObjectPooling>();
-
+        base.Init();
         GameManager.instance.gameOverHandler += SpawnStop;
     }
 
@@ -32,10 +35,14 @@ public class ItemSpawner : MonoBehaviour {
             spawnPosition += Vector3.up * 1.5f;
 
             if (!float.IsInfinity(spawnPosition.x) || !float.IsInfinity(spawnPosition.y) || !float.IsInfinity(spawnPosition.z)) {
-                GameObject item = this._pooling.ActivePoolItem();
+                GameObject item = base.ActivatePoolItem();
                 item.transform.position = spawnPosition;
             }
         }
+    }
+    
+    public void ItemReSpawn(GameObject target) { 
+        base.DeActivatePoolItem(target);
     }
 
     private Vector3 GetRandomPointOnNavMesh(Vector3 center, float distance) {

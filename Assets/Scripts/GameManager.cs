@@ -12,12 +12,12 @@ public class GameManager : MonoBehaviour {
 
     public static GameManager instance;
 
-    [SerializeField] private ObjectPooling enemyPooling;
     [SerializeField] private ObjectPooling itemPooling;
     [SerializeField] private GameUIManager gameUIManager;
 
     public int Score { get; private set; }
     public int HighScore { get; private set; }
+    public bool IsGameOver { get; set; }
 
     public delegate void GameOverHandler();
     public event GameOverHandler gameOverHandler;
@@ -31,15 +31,14 @@ public class GameManager : MonoBehaviour {
         
         instance = this;
 
+        this.IsGameOver = false;
         this.Score = 0;
         LoadHighScore();
-
         Time.timeScale = 0;
-
         this.gameOverHandler += SaveHighScore;
     }
 
-    private void Awake() {
+    private void Awake() {  // DO NOT CHANGE THIS METHOD
         Init();
     }
 
@@ -47,43 +46,31 @@ public class GameManager : MonoBehaviour {
         StartCoroutine(nameof(TimeScoreCounter));
     }
 
-    public void GameOver() {        
-        StopCoroutine(nameof(TimeScoreCounter));
+    public void GameOver() {
+        this.IsGameOver = true;
         this.gameOverHandler();
     }
 
     private IEnumerator TimeScoreCounter() {
-        while(true) {
+        while(!this.IsGameOver) {
             yield return new WaitForSeconds(1f);
             this.Score += 1;
         }
     }
-
-    public void EnemyDeactivate(GameObject obj) {
-        this.enemyPooling.DeActivePoolItem(obj);
-    }
-
-    public void ItemDeactivate(GameObject obj) {
-        this.itemPooling.DeActivePoolItem(obj);
-    }
-
+    
     public void ScoreUp(int score) {
-        this.Score += score;
+        if (!this.IsGameOver) {
+            this.Score += score;
+        }
     }
-
-    public void ItemGet(string name) {
-        this.gameUIManager.StartCoroutine(nameof(GameUIManager.ItemGet), name);
-    }
-
+    
     private void SaveHighScore() {
         if (this.Score > this.HighScore) {
             this.HighScore = this.Score;
         }
         
         SaveData saveData = new SaveData();
-        
         saveData.highScore = this.HighScore;
-
         string json = JsonUtility.ToJson(saveData);
         File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
     }
@@ -94,7 +81,6 @@ public class GameManager : MonoBehaviour {
         if (File.Exists(path)) {
             string json = File.ReadAllText(path);
             SaveData saveData = JsonUtility.FromJson<SaveData>(json);
-                
             this.HighScore = saveData.highScore;
         }
     }

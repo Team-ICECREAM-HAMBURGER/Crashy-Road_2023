@@ -14,7 +14,7 @@ PlayerSettings:
   accelerometerFrequency: 60
   companyName: Team ICH
   productName: Crashy-Road_2023
-  defaultCursor: {fileID: 0}
+  defaultCursor: {fileID: 2800000, guid: 20274b18a905ea4429028761db881512, type: 3}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 1, g: 1, b: 1, a: 1}
   m_ShowUnitySplashScreen: 1

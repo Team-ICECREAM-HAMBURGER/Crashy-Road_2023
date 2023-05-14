@@ -24,14 +24,18 @@ public class PlayerVehicleController : MonoBehaviour, IVehicleController {
     [SerializeField] private TrailRenderer[] skidMarkTrails;
     [SerializeField] private ParticleSystem fireParticle;
     [SerializeField] private ParticleSystem explosionParticle;
+    [SerializeField] private ParticleSystem shieldParticle;
+    [SerializeField] private ParticleSystem speedUpParticle;
     [SerializeField] private AudioClip explosionClip;
     [SerializeField] private AudioClip driftClip;
+    [SerializeField] private AudioClip itemGetClip;
 
-    [Header("Stauts")]
+    [Header("Status")]
     [SerializeField] private bool isShield;
     [SerializeField] private bool isSpeedUp; 
-    [SerializeField] bool isCrashed;
-    
+    [SerializeField] private bool isCrashed;
+
+    private float _turnCurveValue;
     private float _turnSpeedMultiplier;
     private float _moveSpeedMultiplier;
     private float _rayMaxDistance;
@@ -40,12 +44,45 @@ public class PlayerVehicleController : MonoBehaviour, IVehicleController {
     private Vector3 _rayOrigin;
     private Vector3 _rayDirection;
     private RaycastHit _hit;
-
+    
+    public bool IsShield {
+        get {
+            return this.isShield;
+        }
+        set {
+            this.isShield = value;
+        }
+    }
+    public bool IsSpeedUp {
+        get {
+            return this.isSpeedUp;
+        }
+        set {
+            this.isSpeedUp = value;
+        }
+    }
+    public float MoveSpeedMultiplier {
+        get {
+            return this._moveSpeedMultiplier;
+        }
+        set {
+            this._moveSpeedMultiplier = value;
+        }
+    }
+    public float TurnSpeedMultiplier {
+        get {
+            return this._turnSpeedMultiplier;
+        }
+        set {
+            this._turnSpeedMultiplier = value;
+        }
+    }
+    
 
     public void Init() {
-        this.virtualCamera.m_Lens.FieldOfView = 90;
-        this._turnSpeedMultiplier = 1;
-        this._moveSpeedMultiplier = 1;
+        this.virtualCamera.m_Lens.FieldOfView = 90f;
+        this._turnSpeedMultiplier = 1f;
+        this._moveSpeedMultiplier = 1f;
         this._rayMaxDistance = this.carWheelRigidbody.GetComponent<SphereCollider>().radius + 0.2f;
         this._rayDirection = -transform.up;
     }
@@ -70,14 +107,14 @@ public class PlayerVehicleController : MonoBehaviour, IVehicleController {
         this._horizontalInput = Input.GetAxis("Horizontal");
         
         this._carVelocity = this.carBodyRigidbody.transform.InverseTransformDirection(this.carBodyRigidbody.velocity);
-        this._turnSpeedMultiplier = this.turnCurve.Evaluate(Mathf.Abs(this._carVelocity.magnitude / 100)) * 100;
+        this._turnCurveValue = this.turnCurve.Evaluate(Mathf.Abs(this._carVelocity.magnitude / 100)) * 100;
 
         if (Mathf.Abs(this._carVelocity.x) > 0) {    // 차가 좌/우로 회전하고 있을 때 -> 마찰 계수 조정
             this.frictionMaterial.dynamicFriction = this.frictionCurve.Evaluate(Mathf.Abs(this._carVelocity.x / 100));
         }
 
         if (this._carVelocity.z > 1) {  // 차가 전진하고 있을 때 -> 좌/우 회전
-            this.carBodyRigidbody.AddTorque(Vector3.up * (this._horizontalInput * this.playerVehicleStatus.turnSpeed * this._turnSpeedMultiplier));
+            this.carBodyRigidbody.AddTorque(Vector3.up * (this._horizontalInput * this.playerVehicleStatus.turnSpeed * this._turnCurveValue * this._turnSpeedMultiplier));
         }
 
         foreach (Transform frontWheel in this.frontWheels) {    // 앞바퀴 회전 표현
@@ -86,15 +123,21 @@ public class PlayerVehicleController : MonoBehaviour, IVehicleController {
         
         // 스키드 마크 효과
         if (Mathf.Abs(this._carVelocity.x) > 10) {
-            foreach(TrailRenderer skid in this.skidMarkTrails) {
+            foreach (TrailRenderer skid in this.skidMarkTrails) {
                 skid.emitting = true;
-                // TODO: 드리프트 사운드 클립 재생
+
+                if (!this.playerAudioSource.isPlaying) {
+                    this.playerAudioSource.PlayOneShot(this.driftClip);
+                }
             }
         }
         else {
-            foreach(TrailRenderer skid in this.skidMarkTrails) {
+            foreach (TrailRenderer skid in this.skidMarkTrails) {
                 skid.emitting = false;
-                // TODO: 드리프트 사운드 클립 정지
+
+                if (this.playerAudioSource.isPlaying) {
+                    this.playerAudioSource.Stop();
+                }
             }
         }
     }
@@ -102,6 +145,7 @@ public class PlayerVehicleController : MonoBehaviour, IVehicleController {
     public bool Crash() {
         if (this.isCrashed) {
             this._moveSpeedMultiplier = 0;
+            GameManager.instance.IsGameOver = true;
             return true;
         }
         else {
@@ -128,9 +172,10 @@ public class PlayerVehicleController : MonoBehaviour, IVehicleController {
         this.fireParticle.Play();
 
         this.virtualCamera.m_Lens.FieldOfView = 30;
-        // TODO: 폭발 사운드 클립 재생
-        // TODO: 드리프트 사운드 클립 정지
-
+        
+        this.playerAudioSource.Stop();
+        this.playerAudioSource.PlayOneShot(this.explosionClip);
+        
         yield return new WaitForSeconds(3f);
 
         this.explosionParticle.Stop();
@@ -145,15 +190,15 @@ public class PlayerVehicleController : MonoBehaviour, IVehicleController {
                 if (!this.isCrashed) {
                     StartCoroutine(nameof(Explosion));
                 }
+                
                 this.isCrashed = true;
             }
         }
     }
 
     private void OnTriggerEnter(Collider other) {
-        IItem item = other.GetComponent<IItem>();
-
-        if (item != null) {
+        if (other.transform.CompareTag("Item")) {
+            ItemController item = other.GetComponent<ItemController>();
             item.Use(gameObject);
         }
     }

@@ -13,9 +13,11 @@ public class WaterDie : MonoBehaviour {
                 GameManager.instance.GameOver();
             }
             else if (other.gameObject.CompareTag("Police")) {
-                GameManager.instance.EnemyDeactivate(other.gameObject);
-                GameManager.instance.ScoreUp(10);
+                waterDieAudioSource.Play();
+                other.GetComponent<EnemyVehicleController>().Explosion();
+                EnemySpawner.instance.EnemyReSpawn(other.gameObject);
             }
+            
             other.gameObject.SetActive(false);
         }
     }
