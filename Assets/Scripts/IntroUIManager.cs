@@ -31,7 +31,7 @@ public class IntroUIManager : MonoBehaviour {
 
     private void Init() {
         this.singlePlayButton.onClick.AddListener(SinglePlay);
-        this.optionButton.onClick.AddListener(Option);
+        this.optionButton.onClick.AddListener(OptionEnter);
         this.quitButton.onClick.AddListener(GameQuit);
 
         this.graphicTabButton.onClick.AddListener(() => OptionTab(graphicTab));
@@ -39,7 +39,6 @@ public class IntroUIManager : MonoBehaviour {
         this.exitTabButton.onClick.AddListener(OptionExit);
 
         this.loadingSceneCanvas.SetActive(false);
-
         this._prevTab = this.graphicTab;
     }
 
@@ -51,7 +50,7 @@ public class IntroUIManager : MonoBehaviour {
         StartCoroutine(LoadSceneAsync(1));
     }
 
-    private void Option() {
+    private void OptionEnter() {
         this.mainMenuCanvas.SetActive(false);
         this.optionMenuCanvas.SetActive(true);
     }
@@ -71,6 +70,9 @@ public class IntroUIManager : MonoBehaviour {
     }
 
     private void OptionExit() {
+        this.graphicTab.SetActive(false);
+        this.soundTab.SetActive(false);
+        
         this.optionMenuCanvas.SetActive(false);
         this.mainMenuCanvas.SetActive(true);
     }
@@ -89,11 +91,6 @@ public class IntroUIManager : MonoBehaviour {
                 
                 operation.allowSceneActivation = true;
 
-                // if (GameManager.instance != null) {
-                //     GameManager.instance.gameObject.SetActive(false);
-                //     GameManager.instance.gameObject.SetActive(true);
-                // }
-                
                 yield return null;
             }
         }
