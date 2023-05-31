@@ -23,12 +23,12 @@ public class PlayerVehicleController : MonoBehaviour, IVehicleController {
     [SerializeField] private Transform[] frontWheels;
     [SerializeField] private TrailRenderer[] skidMarkTrails;
     [SerializeField] private ParticleSystem fireParticle;
-    [SerializeField] private ParticleSystem explosionParticle;
-    [SerializeField] private ParticleSystem shieldParticle;
-    [SerializeField] private ParticleSystem speedUpParticle;
+    [SerializeField] private ParticleSystem explosionParticle; 
+    [SerializeField] private ParticleSystem itemSpeedUpParticle;
+    [SerializeField] private ParticleSystem itemShieldParticle;
+    [SerializeField] private AudioClip itemGetClip;
     [SerializeField] private AudioClip explosionClip;
     [SerializeField] private AudioClip driftClip;
-    [SerializeField] private AudioClip itemGetClip;
 
     [Header("Status")]
     [SerializeField] private bool isShield;
@@ -44,6 +44,13 @@ public class PlayerVehicleController : MonoBehaviour, IVehicleController {
     private Vector3 _rayOrigin;
     private Vector3 _rayDirection;
     private RaycastHit _hit;
+
+    public ParticleSystem ItemSpeedUpParticle {
+        get { return this.itemSpeedUpParticle; }
+    }
+    public ParticleSystem ItemShieldParticle {
+        get { return this.itemShieldParticle; }
+    }
     
     public bool IsShield {
         get {
@@ -187,7 +194,16 @@ public class PlayerVehicleController : MonoBehaviour, IVehicleController {
     private void OnCollisionEnter(Collision other) {
         if (!this.isShield) {
             if (other.transform.CompareTag("Obstacle") || other.transform.CompareTag("Police")) {
-                if (!this.isCrashed) {
+                if (!this.isCrashed) { 
+                    StartCoroutine(nameof(Explosion));
+                }
+                
+                this.isCrashed = true;
+            }
+        }
+        else if (this.isShield) {
+            if (other.transform.CompareTag("Obstacle")) {
+                if (!this.isCrashed) { 
                     StartCoroutine(nameof(Explosion));
                 }
                 
@@ -200,6 +216,8 @@ public class PlayerVehicleController : MonoBehaviour, IVehicleController {
         if (other.transform.CompareTag("Item")) {
             ItemController item = other.GetComponent<ItemController>();
             item.Use(gameObject);
+            
+            this.playerAudioSource.PlayOneShot(this.itemGetClip);
         }
     }
 }

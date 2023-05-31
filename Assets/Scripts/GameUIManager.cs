@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 using TMPro;
 
 public class GameUIManager : MonoBehaviour {
+    public static GameUIManager instance;
+    
     [Header("In Game")]
     [SerializeField] private Button pauseButton;
     [SerializeField] private TMP_Text scoreText;
@@ -34,6 +36,10 @@ public class GameUIManager : MonoBehaviour {
 
 
     private void Init() {
+        if (instance == null) {
+            instance = this;
+        }
+        
         this._index = 0;
 
         this.pauseButton.onClick.AddListener(GamePause);
@@ -47,7 +53,7 @@ public class GameUIManager : MonoBehaviour {
 
         this.nextButtonL.onClick.AddListener(() => TutorialNextPage(1));
         this.nextButtonR.onClick.AddListener(() => TutorialNextPage(-1));
-        this.closeButton.onClick.AddListener(() => TutorialPageClose());
+        this.closeButton.onClick.AddListener(TutorialPageClose);
 
         this.tutorialMenuCanvas.SetActive(true);
         this.pauseMenuCanvas.SetActive(false);
@@ -90,7 +96,7 @@ public class GameUIManager : MonoBehaviour {
         this.highScoreText.text = "Best Record" + "\n" + GameManager.instance.HighScore.ToString();
     }
 
-    public IEnumerator ItemGet(string name) {
+    public IEnumerator ItemGet(string name) {   // TODO: 아이템 유효 기간 UI 표기 (Ex. 막대 게이지)
         this.itemGetText.text = name + " Item Get!";
         this.itemGetText.gameObject.SetActive(true);
 

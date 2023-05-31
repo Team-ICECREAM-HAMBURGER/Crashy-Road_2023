@@ -28,6 +28,7 @@ public class ItemController : MonoBehaviour {
     }
     
     public void Use(GameObject target) {
+        string name = "";
         _playerVehicleController = target.GetComponent<PlayerVehicleController>();
 
         GameManager.instance.ScoreUp(5);
@@ -36,47 +37,45 @@ public class ItemController : MonoBehaviour {
         
         switch (this.itemType) {
             case ItemType.Shield :
+                name = "Shield";
                 StartCoroutine(nameof(Shield));
                 break;
             case ItemType.SpeedUp :
+                name = "Speed Up";
                 StartCoroutine(nameof(SpeedUp));
                 break;
         }
+
+        GameUIManager.instance.StartCoroutine(nameof(GameUIManager.ItemGet), name);
     }
 
     private IEnumerator Shield() {
-        Debug.Log("Shield Item Get!");
-        
         _playerVehicleController.IsShield = true;
+        _playerVehicleController.ItemShieldParticle.Play();
         
-        // TODO: Shield VFX/SFX Play
+        yield return new WaitForSeconds(10f);
         
-        yield return new WaitForSeconds(5f);
-
-        // TODO: Shield VFX/SFX Stop
-        
+        _playerVehicleController.ItemShieldParticle.Stop();
         _playerVehicleController.IsShield = false;
+        
         ItemSpawner.instance.ItemReSpawn(gameObject);
     }
 
     private IEnumerator SpeedUp() {
-        Debug.Log("Speed Up Item Get!");
-        
         _playerVehicleController.IsSpeedUp = true;
+        _playerVehicleController.ItemSpeedUpParticle.Play();
 
         _playerVehicleController.MoveSpeedMultiplier = 1.3f;
         _playerVehicleController.TurnSpeedMultiplier = 1.3f;
         
-        // TODO: Speed Up VFX/SFX Play
-        
         yield return new WaitForSeconds(5f);
-        
-        // TODO: Speed Up VFX/SFX Stop
         
         _playerVehicleController.MoveSpeedMultiplier = 1f;
         _playerVehicleController.TurnSpeedMultiplier = 1f;
 
+        _playerVehicleController.ItemSpeedUpParticle.Stop();
         _playerVehicleController.IsSpeedUp = false;
+        
         ItemSpawner.instance.ItemReSpawn(gameObject);
     }
 }
