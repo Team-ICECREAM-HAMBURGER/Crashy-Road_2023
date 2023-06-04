@@ -5,6 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="76b57522-21fc-4af3-bff0-e28f15cb6c6b" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Crashy-Road_2023/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Crashy-Road_2023/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/01.Intro.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/01.Intro.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameOptionController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameOptionController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -19,6 +22,8 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/PlayerVehicleStatus.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../Zombie/Assets/Scripts/AmmoPack.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../Zombie/Assets/Scripts/Coin.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6b25a738344145fd98ec6dc5e0ff34f3159c00/8a/62892bf1/InvokableCall`1.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6b25a738344145fd98ec6dc5e0ff34f3159c00/dd/817a8c80/CachedInvokableCall`1.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -36,7 +41,7 @@
     &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.15291937&quot;,
+    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.3902439&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -115,6 +120,13 @@
       <workItem from="1685435153905" duration="1052000" />
       <workItem from="1685436235674" duration="740000" />
       <workItem from="1685501803006" duration="13311000" />
+      <workItem from="1685604949892" duration="2831000" />
+      <workItem from="1685613108581" duration="2086000" />
+      <workItem from="1685615301104" duration="1962000" />
+      <workItem from="1685617647858" duration="260000" />
+      <workItem from="1685617914282" duration="717000" />
+      <workItem from="1685618638576" duration="3672000" />
+      <workItem from="1685674252490" duration="604000" />
     </task>
     <servers />
   </component>

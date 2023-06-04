@@ -5,8 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
 
-public class GameOptionController : MonoBehaviour
-{
+public class GameOptionController : MonoBehaviour {
     [Header("Graphic Screen Size")] 
     [SerializeField] private Toggle screenSizeNative;
     [SerializeField] private Toggle screenSize16_9;
@@ -37,46 +36,32 @@ public class GameOptionController : MonoBehaviour
     private int _oriScreenW;
     private int _oriScreenH;
     private float _soundVal = 1;
-
-
+    
+    
     private void Init() {
         this._oriScreenW = Screen.currentResolution.width;
         this._oriScreenH = Screen.currentResolution.height;
-
-        this.gameOptionStatus.screenSize = 1;
-        this.gameOptionStatus.fpsValue = 1;
-        this.gameOptionStatus.graphicQuality = 1;
-        this.gameOptionStatus.vsyncValue = 2;
-
-        this.screenSizeNative.isOn = true;
-        this.fpsNative.isOn = true;
-        this.qualityHigh.isOn = true;
-        this.vsyncOff.isOn = true;
-
-        this.screenSizeNative.onValueChanged.AddListener(delegate {
-            ResolutionChanger(this.gameOptionStatus.screenSize);
-        });
-
         this.soundScrollbar.value = this._soundVal;
+        
+        ResolutionChanger(this.gameOptionStatus.screenSize);
     }
 
     private void Start() {
         Init();
     }
 
-    private void OnEnable() {
-        ResolutionChanger(this.gameOptionStatus.screenSize);
-    }
-
     public void ResolutionChanger(int num) {   // TODO: 토글 클릭 시, isOn 항목 저장 후 복원
         switch (num) {
             case 1 :
+                this.screenSizeNative.SetIsOnWithoutNotify(true);
                 Screen.SetResolution(this._oriScreenW, this._oriScreenH, FullScreenMode.FullScreenWindow);
                 break;
             case 2 :
+                this.screenSize16_9.SetIsOnWithoutNotify(true);
                 Screen.SetResolution(1920, 1080, FullScreenMode.FullScreenWindow);
                 break;
             case 3 :
+                this.screenSize21_9.SetIsOnWithoutNotify(true);
                 Screen.SetResolution(2560, 1080, FullScreenMode.FullScreenWindow);
                 break;
         }
