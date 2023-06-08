@@ -5,11 +5,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
 
+public enum ScreenSize {
+    ScreenSizeNative = 0,
+    ScreenSize16_9 = 1,
+    ScreenSize21_9 = 2
+}
+
 public class GameOptionController : MonoBehaviour {
     [Header("Graphic Screen Size")] 
-    [SerializeField] private Toggle screenSizeNative;
-    [SerializeField] private Toggle screenSize16_9;
-    [SerializeField] private Toggle screenSize21_9;
+    [SerializeField] private Toggle[] screenSizeToggles;
 
     [Header("Graphic Quality")] 
     [SerializeField] private Toggle qualityHigh;
@@ -25,13 +29,11 @@ public class GameOptionController : MonoBehaviour {
     [SerializeField] private Toggle vsyncOn;
     [SerializeField] private Toggle vsyncOff;
     
-    
     [Header("Sound Scroll Bar")] 
     [SerializeField] private Scrollbar soundScrollbar;
     
     [Header("Components")]
     [SerializeField] private AudioMixer mainMixer;
-    [SerializeField] private GameOptionStatus gameOptionStatus; // ScriptableObject
     
     private int _oriScreenW;
     private int _oriScreenH;
@@ -39,11 +41,7 @@ public class GameOptionController : MonoBehaviour {
     
     
     private void Init() {
-        this._oriScreenW = Screen.currentResolution.width;
-        this._oriScreenH = Screen.currentResolution.height;
-        this.soundScrollbar.value = this._soundVal;
-        
-        ResolutionChanger(this.gameOptionStatus.screenSize);
+        this.screenSizeToggles[this.gameOptionStatus.screenSize].isOn = true;
     }
 
     private void Start() {
@@ -52,21 +50,16 @@ public class GameOptionController : MonoBehaviour {
 
     public void ResolutionChanger(int num) {   // TODO: 토글 클릭 시, isOn 항목 저장 후 복원
         switch (num) {
-            case 1 :
-                this.screenSizeNative.SetIsOnWithoutNotify(true);
+            case (int)ScreenSize.ScreenSizeNative :
                 Screen.SetResolution(this._oriScreenW, this._oriScreenH, FullScreenMode.FullScreenWindow);
                 break;
-            case 2 :
-                this.screenSize16_9.SetIsOnWithoutNotify(true);
+            case (int)ScreenSize.ScreenSize16_9 :
                 Screen.SetResolution(1920, 1080, FullScreenMode.FullScreenWindow);
                 break;
-            case 3 :
-                this.screenSize21_9.SetIsOnWithoutNotify(true);
+            case (int)ScreenSize.ScreenSize21_9 :
                 Screen.SetResolution(2560, 1080, FullScreenMode.FullScreenWindow);
                 break;
         }
-
-        this.gameOptionStatus.screenSize = num;
     }
 
     public void FPSOption(int num) {    // TODO: 토글 클릭 시, isOn 항목 저장 후 복원
