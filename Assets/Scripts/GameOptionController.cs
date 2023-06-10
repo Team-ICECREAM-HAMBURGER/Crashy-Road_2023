@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
@@ -12,6 +13,12 @@ public enum ScreenSize {
 }
 
 public class GameOptionController : MonoBehaviour {
+    class GameOptionData {
+        public int screenSize = 0;
+        public int fps = 0;
+        public int vsync = 0;
+    }
+    
     [Header("Graphic Screen Size")] 
     [SerializeField] private Toggle[] screenSizeToggles;
 
@@ -38,17 +45,43 @@ public class GameOptionController : MonoBehaviour {
     private int _oriScreenW;
     private int _oriScreenH;
     private float _soundVal = 1;
+    private GameOptionData _gameOptionData;
     
     
     private void Init() {
-        this.screenSizeToggles[this.gameOptionStatus.screenSize].isOn = true;
+        this._gameOptionData = new GameOptionData();
+        
+        this._oriScreenW = Screen.width;
+        this._oriScreenH = Screen.height;
+
+        LoadGameOptionData();
     }
 
     private void Start() {
         Init();
     }
 
-    public void ResolutionChanger(int num) {   // TODO: 토글 클릭 시, isOn 항목 저장 후 복원
+    private void LoadGameOptionData() {
+        string path = Application.persistentDataPath + "/GameOptionData.json";
+
+        if (File.Exists(path)) {
+            string json = File.ReadAllText(path);
+            this._gameOptionData = JsonUtility.FromJson<GameOptionData>(json);
+            
+            this.screenSizeToggles[this._gameOptionData.screenSize].isOn = true;
+        }
+        else {
+            SaveGameOptionData();
+            LoadGameOptionData();
+        }
+    }
+
+    private void SaveGameOptionData() {
+        string json = JsonUtility.ToJson(this._gameOptionData);
+        File.WriteAllText(Application.persistentDataPath + "/GameOptionData.json", json);
+    }
+
+    public void ResolutionChanger(int num) {
         switch (num) {
             case (int)ScreenSize.ScreenSizeNative :
                 Screen.SetResolution(this._oriScreenW, this._oriScreenH, FullScreenMode.FullScreenWindow);
@@ -60,6 +93,9 @@ public class GameOptionController : MonoBehaviour {
                 Screen.SetResolution(2560, 1080, FullScreenMode.FullScreenWindow);
                 break;
         }
+
+        this._gameOptionData.screenSize = num;
+        SaveGameOptionData();
     }
 
     public void FPSOption(int num) {    // TODO: 토글 클릭 시, isOn 항목 저장 후 복원

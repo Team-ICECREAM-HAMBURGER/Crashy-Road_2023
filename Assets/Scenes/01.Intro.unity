@@ -8155,7 +8155,6 @@ MonoBehaviour:
   vsyncOff: {fileID: 559151762}
   soundScrollbar: {fileID: 1808521760}
   mainMixer: {fileID: 24100000, guid: cfa76bef6c7441649bfa3732ba9e5339, type: 2}
-  gameOptionStatus: {fileID: 11400000, guid: dd990fdcc46764cec99e83a122529f9c, type: 2}
 --- !u!1 &1485837587
 GameObject:
   m_ObjectHideFlags: 0
