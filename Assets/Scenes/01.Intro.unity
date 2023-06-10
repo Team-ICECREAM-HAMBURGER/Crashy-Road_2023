@@ -4408,8 +4408,20 @@ MonoBehaviour:
   m_Group: {fileID: 668454108}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
-  m_IsOn: 1
+      m_Calls:
+      - m_Target: {fileID: 1476784530}
+        m_TargetAssemblyTypeName: GameOptionController, Assembly-CSharp
+        m_MethodName: FPSChanger
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  m_IsOn: 0
 --- !u!1 &910018589
 GameObject:
   m_ObjectHideFlags: 0
@@ -6272,7 +6284,19 @@ MonoBehaviour:
   m_Group: {fileID: 668454108}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1476784530}
+        m_TargetAssemblyTypeName: GameOptionController, Assembly-CSharp
+        m_MethodName: FPSChanger
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 0
 --- !u!1 &1148963055
 GameObject:
@@ -8145,14 +8169,17 @@ MonoBehaviour:
   - {fileID: 934677958}
   - {fileID: 818169599}
   - {fileID: 1705177049}
-  qualityHigh: {fileID: 1738274760}
-  qualityMedium: {fileID: 266886878}
-  qualityLow: {fileID: 1989070292}
-  fpsNative: {fileID: 873688462}
-  fps60: {fileID: 1700501675}
-  fps120: {fileID: 1148384789}
-  vsyncOn: {fileID: 704924376}
-  vsyncOff: {fileID: 559151762}
+  graphicQualityToggles:
+  - {fileID: 1738274760}
+  - {fileID: 266886878}
+  - {fileID: 1989070292}
+  fpsToggles:
+  - {fileID: 873688462}
+  - {fileID: 1700501675}
+  - {fileID: 1148384789}
+  vsyncToggles:
+  - {fileID: 704924376}
+  - {fileID: 559151762}
   soundScrollbar: {fileID: 1808521760}
   mainMixer: {fileID: 24100000, guid: cfa76bef6c7441649bfa3732ba9e5339, type: 2}
 --- !u!1 &1485837587
@@ -9620,7 +9647,19 @@ MonoBehaviour:
   m_Group: {fileID: 668454108}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1476784530}
+        m_TargetAssemblyTypeName: GameOptionController, Assembly-CSharp
+        m_MethodName: FPSChanger
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 0
 --- !u!1 &1701579876
 GameObject:

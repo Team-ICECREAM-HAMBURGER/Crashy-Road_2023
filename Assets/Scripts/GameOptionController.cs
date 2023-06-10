@@ -12,29 +12,42 @@ public enum ScreenSize {
     ScreenSize21_9 = 2
 }
 
+public enum Fps {
+    FpsNative = 0,
+    Fps60 = 1,
+    Fps120 = 2
+}
+
+public enum GraphicQuality {
+    GraphicQualityHigh = 0,
+    GraphicQualityMedium = 1,
+    GraphicQualityLow = 2
+}
+
+public enum Vsync {
+    VsyncOn = 0,
+    VsyncOff = 1
+}
+
 public class GameOptionController : MonoBehaviour {
     class GameOptionData {
         public int screenSize = 0;
         public int fps = 0;
         public int vsync = 0;
+        public int graphicQuality = 0;
     }
     
-    [Header("Graphic Screen Size")] 
+    [Header("Screen Size")] 
     [SerializeField] private Toggle[] screenSizeToggles;
 
     [Header("Graphic Quality")] 
-    [SerializeField] private Toggle qualityHigh;
-    [SerializeField] private Toggle qualityMedium;
-    [SerializeField] private Toggle qualityLow;
+    [SerializeField] private Toggle[] graphicQualityToggles;
 
-    [Header("FPS")] 
-    [SerializeField] private Toggle fpsNative;
-    [SerializeField] private Toggle fps60;
-    [SerializeField] private Toggle fps120;
+    [Header("FPS")]
+    [SerializeField] private Toggle[] fpsToggles;
 
     [Header("Vsync")] 
-    [SerializeField] private Toggle vsyncOn;
-    [SerializeField] private Toggle vsyncOff;
+    [SerializeField] private Toggle[] vsyncToggles;
     
     [Header("Sound Scroll Bar")] 
     [SerializeField] private Scrollbar soundScrollbar;
@@ -69,6 +82,7 @@ public class GameOptionController : MonoBehaviour {
             this._gameOptionData = JsonUtility.FromJson<GameOptionData>(json);
             
             this.screenSizeToggles[this._gameOptionData.screenSize].isOn = true;
+            this.fpsToggles[this._gameOptionData.fps].isOn = true;
         }
         else {
             SaveGameOptionData();
@@ -98,16 +112,52 @@ public class GameOptionController : MonoBehaviour {
         SaveGameOptionData();
     }
 
-    public void FPSOption(int num) {    // TODO: 토글 클릭 시, isOn 항목 저장 후 복원
-        Application.targetFrameRate = num;
+    public void FPSChanger(int num) {    // TODO: 토글 클릭 시, isOn 항목 저장 후 복원
+        switch (num) {
+            case (int)Fps.FpsNative :
+                Application.targetFrameRate = -1;
+                break;
+            case (int)Fps.Fps60 :
+                Application.targetFrameRate = 60;
+                break;
+            case (int)Fps.Fps120 :
+                Application.targetFrameRate = 120;
+                break;
+        }
+        
+        this._gameOptionData.fps = num;
+        SaveGameOptionData();
     }
 
-    public void VsyncOption(int num) {  // TODO: 토글 클릭 시, isOn 항목 저장 후 복원
-        QualitySettings.vSyncCount = num;
+    public void VsyncChanger(int num) {  // TODO: 토글 클릭 시, isOn 항목 저장 후 복원
+        switch (num) {
+            case (int)Vsync.VsyncOn :
+                QualitySettings.vSyncCount = (int)Vsync.VsyncOn;
+                break;
+            case (int)Vsync.VsyncOff :
+                QualitySettings.vSyncCount = (int)Vsync.VsyncOff;
+                break;
+        }
+
+        this._gameOptionData.vsync = num;
+        SaveGameOptionData();
     }
 
-    public void QualityOption(int num) {    // TODO: 토글 클릭 시, isOn 항목 저장 후 복원
-        QualitySettings.SetQualityLevel(num);
+    public void GraphicQualityChanger(int num) {    // TODO: 토글 클릭 시, isOn 항목 저장 후 복원
+        switch (num) {
+            case (int)GraphicQuality.GraphicQualityHigh :
+                QualitySettings.SetQualityLevel((int)GraphicQuality.GraphicQualityHigh);
+                break;
+            case (int)GraphicQuality.GraphicQualityMedium :
+                QualitySettings.SetQualityLevel((int)GraphicQuality.GraphicQualityMedium);
+                break;
+            case (int)GraphicQuality.GraphicQualityLow :
+                QualitySettings.SetQualityLevel((int)GraphicQuality.GraphicQualityLow);
+                break;
+        }
+
+        this._gameOptionData.graphicQuality = num;
+        SaveGameOptionData();
     }
 
     public void Mute(bool isMute) { // TODO: 토글 클릭 시, isOn 항목 저장 후 복원
