@@ -29,12 +29,19 @@ public enum Vsync {
     VsyncOff = 1
 }
 
+public enum Mute {
+    MuteOn = 0,
+    MuteOff = 1
+}
+
 public class GameOptionController : MonoBehaviour {
     class GameOptionData {
         public int screenSize = 0;
         public int fps = 0;
         public int vsync = 0;
         public int graphicQuality = 0;
+        public int mute = 0;
+        public float volume = 1f;
     }
     
     [Header("Screen Size")] 
@@ -48,13 +55,16 @@ public class GameOptionController : MonoBehaviour {
 
     [Header("Vsync")] 
     [SerializeField] private Toggle[] vsyncToggles;
+
+    [Header("Sound Mute")] 
+    [SerializeField] private Toggle[] muteToggles;
     
     [Header("Sound Scroll Bar")] 
     [SerializeField] private Scrollbar soundScrollbar;
     
     [Header("Components")]
     [SerializeField] private AudioMixer mainMixer;
-    
+
     private int _oriScreenW;
     private int _oriScreenH;
     private float _soundVal = 1;
@@ -83,6 +93,10 @@ public class GameOptionController : MonoBehaviour {
             
             this.screenSizeToggles[this._gameOptionData.screenSize].isOn = true;
             this.fpsToggles[this._gameOptionData.fps].isOn = true;
+            this.vsyncToggles[this._gameOptionData.vsync].isOn = true;
+            this.graphicQualityToggles[this._gameOptionData.graphicQuality].isOn = true;
+            this.muteToggles[this._gameOptionData.mute].isOn = true;
+            VolumeController(this._gameOptionData.volume);
         }
         else {
             SaveGameOptionData();
@@ -132,10 +146,10 @@ public class GameOptionController : MonoBehaviour {
     public void VsyncChanger(int num) {  // TODO: 토글 클릭 시, isOn 항목 저장 후 복원
         switch (num) {
             case (int)Vsync.VsyncOn :
-                QualitySettings.vSyncCount = (int)Vsync.VsyncOn;
+                QualitySettings.vSyncCount = 1;
                 break;
             case (int)Vsync.VsyncOff :
-                QualitySettings.vSyncCount = (int)Vsync.VsyncOff;
+                QualitySettings.vSyncCount = 0;
                 break;
         }
 
@@ -146,13 +160,13 @@ public class GameOptionController : MonoBehaviour {
     public void GraphicQualityChanger(int num) {    // TODO: 토글 클릭 시, isOn 항목 저장 후 복원
         switch (num) {
             case (int)GraphicQuality.GraphicQualityHigh :
-                QualitySettings.SetQualityLevel((int)GraphicQuality.GraphicQualityHigh);
+                QualitySettings.SetQualityLevel(2);
                 break;
             case (int)GraphicQuality.GraphicQualityMedium :
-                QualitySettings.SetQualityLevel((int)GraphicQuality.GraphicQualityMedium);
+                QualitySettings.SetQualityLevel(1);
                 break;
             case (int)GraphicQuality.GraphicQualityLow :
-                QualitySettings.SetQualityLevel((int)GraphicQuality.GraphicQualityLow);
+                QualitySettings.SetQualityLevel(0);
                 break;
         }
 
@@ -160,18 +174,31 @@ public class GameOptionController : MonoBehaviour {
         SaveGameOptionData();
     }
 
-    public void Mute(bool isMute) { // TODO: 토글 클릭 시, isOn 항목 저장 후 복원
-        if (isMute) {
-            SoundControl(0);
+    public void VolumeMuter(int num) { // TODO: 토글 클릭 시, isOn 항목 저장 후 복원
+        switch (num) {
+            case (int)Mute.MuteOn :
+                VolumeController(0);
+                break;
+            case (int)Mute.MuteOff :
+                VolumeController(this._gameOptionData.volume);
+                break;
         }
-        else {
-            SoundControl(1);
-        }
+
+        this._gameOptionData.mute = num;
+        SaveGameOptionData();
     }
 
-    public void SoundControl(float value) { // TODO: 음량 게이지 저장 후 복원
+    public void VolumeController(float value) { // TODO: 음량 게이지 저장 후 복원
+        if (this._gameOptionData.mute == 0) {
+            value = 0;
+        }
+        
         this._soundVal = value;
         this.soundScrollbar.value = value;
-        this.mainMixer.SetFloat("Master", Mathf.Log10(value + 0.0001f)*20);
+        this.mainMixer.SetFloat("Master", Mathf.Log10(value + 0.0001f) * 20);
+
+        this._gameOptionData.volume = value;
+        
+        SaveGameOptionData();
     }
 }

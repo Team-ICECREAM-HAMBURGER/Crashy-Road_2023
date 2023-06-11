@@ -1439,7 +1439,19 @@ MonoBehaviour:
   m_Group: {fileID: 1061070349}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1476784530}
+        m_TargetAssemblyTypeName: GameOptionController, Assembly-CSharp
+        m_MethodName: GraphicQualityChanger
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 0
 --- !u!1 &277760005
 GameObject:
@@ -2324,8 +2336,20 @@ MonoBehaviour:
   m_Group: {fileID: 1234001630}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
-  m_IsOn: 1
+      m_Calls:
+      - m_Target: {fileID: 1476784530}
+        m_TargetAssemblyTypeName: GameOptionController, Assembly-CSharp
+        m_MethodName: VsyncChanger
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  m_IsOn: 0
 --- !u!1 &563542481
 GameObject:
   m_ObjectHideFlags: 0
@@ -3173,7 +3197,19 @@ MonoBehaviour:
   m_Group: {fileID: 1234001630}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1476784530}
+        m_TargetAssemblyTypeName: GameOptionController, Assembly-CSharp
+        m_MethodName: VsyncChanger
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 0
 --- !u!1 &705294370
 GameObject:
@@ -4750,8 +4786,20 @@ MonoBehaviour:
   m_Group: {fileID: 1551273368}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
-  m_IsOn: 1
+      m_Calls:
+      - m_Target: {fileID: 1476784530}
+        m_TargetAssemblyTypeName: GameOptionController, Assembly-CSharp
+        m_MethodName: VolumeMuter
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  m_IsOn: 0
 --- !u!1 &934677956
 GameObject:
   m_ObjectHideFlags: 0
@@ -6383,7 +6431,19 @@ MonoBehaviour:
   m_Group: {fileID: 1551273368}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1476784530}
+        m_TargetAssemblyTypeName: GameOptionController, Assembly-CSharp
+        m_MethodName: VolumeMuter
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 0
 --- !u!1 &1165248822
 GameObject:
@@ -8180,6 +8240,9 @@ MonoBehaviour:
   vsyncToggles:
   - {fileID: 704924376}
   - {fileID: 559151762}
+  muteToggles:
+  - {fileID: 1148963057}
+  - {fileID: 932734303}
   soundScrollbar: {fileID: 1808521760}
   mainMixer: {fileID: 24100000, guid: cfa76bef6c7441649bfa3732ba9e5339, type: 2}
 --- !u!1 &1485837587
@@ -9367,8 +9430,8 @@ RectTransform:
   m_Father: {fileID: 737710934}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 30, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -9921,8 +9984,20 @@ MonoBehaviour:
   m_Group: {fileID: 1061070349}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
-  m_IsOn: 1
+      m_Calls:
+      - m_Target: {fileID: 1476784530}
+        m_TargetAssemblyTypeName: GameOptionController, Assembly-CSharp
+        m_MethodName: GraphicQualityChanger
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  m_IsOn: 0
 --- !u!1 &1756265533
 GameObject:
   m_ObjectHideFlags: 0
@@ -10601,7 +10676,19 @@ MonoBehaviour:
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1476784530}
+        m_TargetAssemblyTypeName: GameOptionController, Assembly-CSharp
+        m_MethodName: VolumeController
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1808521761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11376,7 +11463,19 @@ MonoBehaviour:
   m_Group: {fileID: 1061070349}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1476784530}
+        m_TargetAssemblyTypeName: GameOptionController, Assembly-CSharp
+        m_MethodName: GraphicQualityChanger
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 0
 --- !u!1 &1991928321
 GameObject:
