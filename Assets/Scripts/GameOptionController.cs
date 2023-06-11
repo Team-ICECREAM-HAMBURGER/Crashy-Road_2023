@@ -67,15 +67,16 @@ public class GameOptionController : MonoBehaviour {
 
     private int _oriScreenW;
     private int _oriScreenH;
-    private float _soundVal = 1;
+    private float _soundVal;
     private GameOptionData _gameOptionData;
     
     
     private void Init() {
         this._gameOptionData = new GameOptionData();
-        
-        this._oriScreenW = Screen.width;
-        this._oriScreenH = Screen.height;
+
+        this._soundVal = 1f;
+        this._oriScreenW = Screen.currentResolution.width;
+        this._oriScreenH = Screen.currentResolution.height;
 
         LoadGameOptionData();
     }

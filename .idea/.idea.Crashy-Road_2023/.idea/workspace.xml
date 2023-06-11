@@ -6,6 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="76b57522-21fc-4af3-bff0-e28f15cb6c6b" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Crashy-Road_2023/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Crashy-Road_2023/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/01.Intro.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/01.Intro.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameOptionController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameOptionController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StreamingAssets/build_info" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/StreamingAssets/build_info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -131,6 +135,7 @@
       <workItem from="1686203973267" duration="2021000" />
       <workItem from="1686400437873" duration="7044000" />
       <workItem from="1686484507995" duration="8268000" />
+      <workItem from="1686494046786" duration="1983000" />
     </task>
     <servers />
   </component>
