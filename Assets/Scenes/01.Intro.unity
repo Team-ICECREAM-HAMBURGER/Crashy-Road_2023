@@ -5501,7 +5501,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC74C\uB7C9"
+  m_text: "\uBCFC\uB968"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7040e2ff5f2d9414ab2f347d99c24023, type: 2}
   m_sharedMaterial: {fileID: -7119376693722304302, guid: 7040e2ff5f2d9414ab2f347d99c24023, type: 2}
@@ -8244,7 +8244,7 @@ MonoBehaviour:
   - {fileID: 1148963057}
   - {fileID: 932734303}
   soundScrollbar: {fileID: 1808521760}
-  mainMixer: {fileID: 24100000, guid: cfa76bef6c7441649bfa3732ba9e5339, type: 2}
+  audioMixer: {fileID: 24100000, guid: cfa76bef6c7441649bfa3732ba9e5339, type: 2}
 --- !u!1 &1485837587
 GameObject:
   m_ObjectHideFlags: 0

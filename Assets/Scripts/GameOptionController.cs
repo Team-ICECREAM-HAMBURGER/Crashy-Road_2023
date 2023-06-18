@@ -63,7 +63,8 @@ public class GameOptionController : MonoBehaviour {
     [SerializeField] private Scrollbar soundScrollbar;
     
     [Header("Components")]
-    [SerializeField] private AudioMixer mainMixer;
+    [SerializeField] private AudioMixer audioMixer;
+
 
     private int _oriScreenW;
     private int _oriScreenH;
@@ -127,7 +128,7 @@ public class GameOptionController : MonoBehaviour {
         SaveGameOptionData();
     }
 
-    public void FPSChanger(int num) {    // TODO: 토글 클릭 시, isOn 항목 저장 후 복원
+    public void FPSChanger(int num) {
         switch (num) {
             case (int)Fps.FpsNative :
                 Application.targetFrameRate = -1;
@@ -144,7 +145,7 @@ public class GameOptionController : MonoBehaviour {
         SaveGameOptionData();
     }
 
-    public void VsyncChanger(int num) {  // TODO: 토글 클릭 시, isOn 항목 저장 후 복원
+    public void VsyncChanger(int num) {
         switch (num) {
             case (int)Vsync.VsyncOn :
                 QualitySettings.vSyncCount = 1;
@@ -158,7 +159,7 @@ public class GameOptionController : MonoBehaviour {
         SaveGameOptionData();
     }
 
-    public void GraphicQualityChanger(int num) {    // TODO: 토글 클릭 시, isOn 항목 저장 후 복원
+    public void GraphicQualityChanger(int num) {
         switch (num) {
             case (int)GraphicQuality.GraphicQualityHigh :
                 QualitySettings.SetQualityLevel(2);
@@ -175,7 +176,7 @@ public class GameOptionController : MonoBehaviour {
         SaveGameOptionData();
     }
 
-    public void VolumeMuter(int num) { // TODO: 토글 클릭 시, isOn 항목 저장 후 복원
+    public void VolumeMuter(int num) {
         switch (num) {
             case (int)Mute.MuteOn :
                 VolumeController(0);
@@ -189,14 +190,14 @@ public class GameOptionController : MonoBehaviour {
         SaveGameOptionData();
     }
 
-    public void VolumeController(float value) { // TODO: 음량 게이지 저장 후 복원
+    public void VolumeController(float value) {
         if (this._gameOptionData.mute == 0) {
             value = 0;
         }
         
         this._soundVal = value;
         this.soundScrollbar.value = value;
-        this.mainMixer.SetFloat("Master", Mathf.Log10(value + 0.0001f) * 20);
+        this.audioMixer.SetFloat("Master", Mathf.Log10(value + 0.0001f) * 20);
 
         this._gameOptionData.volume = value;
         
