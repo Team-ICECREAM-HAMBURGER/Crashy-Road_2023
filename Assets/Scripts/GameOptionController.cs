@@ -7,7 +7,6 @@ using UnityEngine.UI;
 using UnityEngine.Audio;
 
 public enum ScreenSize {
-    ScreenSizeNative = 0,
     ScreenSize16_9 = 1,
     ScreenSize21_9 = 2
 }
@@ -76,8 +75,8 @@ public class GameOptionController : MonoBehaviour {
         this._gameOptionData = new GameOptionData();
 
         this._soundVal = 1f;
-        this._oriScreenW = Screen.currentResolution.width;
-        this._oriScreenH = Screen.currentResolution.height;
+        this._oriScreenW = Screen.width;
+        this._oriScreenH = Screen.height;
 
         LoadGameOptionData();
     }
@@ -113,9 +112,6 @@ public class GameOptionController : MonoBehaviour {
 
     public void ResolutionChanger(int num) {
         switch (num) {
-            case (int)ScreenSize.ScreenSizeNative :
-                Screen.SetResolution(this._oriScreenW, this._oriScreenH, FullScreenMode.FullScreenWindow);
-                break;
             case (int)ScreenSize.ScreenSize16_9 :
                 Screen.SetResolution(1920, 1080, FullScreenMode.FullScreenWindow);
                 break;
