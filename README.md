@@ -1,10 +1,8 @@
 # Crashy Road(2023)
 
 ![CrashRoad_LOGO](https://github.com/wlvlrtm/Baekjoon/assets/62886544/16d89dcb-a92e-48de-8c68-ab2d1d4c2af2)
-
-
-> ## (캐치 프라이즈)
-
+> ## 도심 속, 브레이크 없이 내달리는 아슬아슬한 추격전
+ 
 | 구분          | 사양                     |
 | ------------ | ----------------------- |
 | 개발          | Team ICECREAM HAMBURGER |
