@@ -16,6 +16,9 @@
 
 <br/>
 
+# 스토어 링크
+(링크)
+
 # 사양
 | 구분 | 권장 사양                                     |
 | --- | ------------------------------------------ |
@@ -44,8 +47,12 @@
 
 <br/>
 
-# 스토어 링크
-(링크)
+# 플레이 방법
+<img width="699" alt="Screenshot 2023-06-20 at 18 14 07" src="https://github.com/Team-IceCreamHamburger/.github/assets/62886544/6f2aefa7-86db-4d39-afcf-5b26ae20b38c">
+<img width="699" alt="Screenshot 2023-06-20 at 18 14 17" src="https://github.com/Team-IceCreamHamburger/.github/assets/62886544/f6b31929-6ba6-4bc7-99f9-0099ad1e75b9">
+<img width="699" alt="Screenshot 2023-06-20 at 18 14 21" src="https://github.com/Team-IceCreamHamburger/.github/assets/62886544/e8e0c62d-0328-4de2-ac74-b1b4b7182935">
+<img width="699" alt="Screenshot 2023-06-20 at 18 14 23" src="https://github.com/Team-IceCreamHamburger/.github/assets/62886544/d7af54f2-8103-4af5-a2a1-e42a9604ab31">
+<img width="699" alt="Screenshot 2023-06-20 at 18 14 26" src="https://github.com/Team-IceCreamHamburger/.github/assets/62886544/5bcb046d-7411-4398-9567-d2bf863a5a76">
 
 <br/>
 
