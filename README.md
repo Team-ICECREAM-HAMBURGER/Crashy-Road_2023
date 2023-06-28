@@ -1,6 +1,7 @@
 # Crashy Road(2023)
 
-![CrashRoad_LOGO](https://github.com/wlvlrtm/Baekjoon/assets/62886544/16d89dcb-a92e-48de-8c68-ab2d1d4c2af2)
+<img width="1036" alt="Screenshot 2023-06-28 at 15 09 12" src="https://github.com/Team-IceCreamHamburger/Crashy-Road_2023/assets/62886544/95e3604a-292d-4980-977b-5f6bded3a801">
+
 > ## 도심 속, 브레이크 없이 내달리는 아슬아슬한 추격전
  
 | 구분          | 사양                     |
@@ -18,6 +19,11 @@
 
 # 스토어 링크
 (링크)
+
+<br/>
+
+# 게임 플레이 트레일러
+https://youtu.be/o-Ckr-xG1NA
 
 <br/>
 
