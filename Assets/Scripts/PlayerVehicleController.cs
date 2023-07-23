@@ -106,13 +106,14 @@ public class PlayerVehicleController : MonoBehaviour, IVehicleController {
     }
 
     public void Movement() {
-        this.carWheelRigidbody.velocity = Vector3.Lerp(this.carWheelRigidbody.velocity, this.carBodyRigidbody.transform.forward * (this.playerVehicleStatus.maxSpeed * this._moveSpeedMultiplier), this.playerVehicleStatus.acceleration * Time.deltaTime);
+        this.carWheelRigidbody.velocity = Vector3.Lerp(this.carWheelRigidbody.velocity, 
+            this.carBodyRigidbody.transform.forward * (this.playerVehicleStatus.maxSpeed * this._moveSpeedMultiplier), 
+            this.playerVehicleStatus.acceleration * Time.deltaTime);
         this.carWheelRigidbody.AddForce(-transform.up * (this.playerVehicleStatus.downforce * this.carWheelRigidbody.mass));
     }
 
     public void Rotate() {
         this._horizontalInput = Input.GetAxis("Horizontal");
-        
         this._carVelocity = this.carBodyRigidbody.transform.InverseTransformDirection(this.carBodyRigidbody.velocity);
         this._turnCurveValue = this.turnCurve.Evaluate(Mathf.Abs(this._carVelocity.magnitude / 100)) * 100;
 

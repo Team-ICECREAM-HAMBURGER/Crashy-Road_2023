@@ -99,7 +99,7 @@ public class EnemyVehicleController : MonoBehaviour, IVehicleController {
     }
     
     public void Movement() {
-        if (!this.isCornering && !this.isCrashed) {   // 코너링 도중이 아니며, 사고가 나지 않았을 경우 -> 기속
+        if (!this.isCornering && !this.isCrashed) {   // 코너링 도중이 아니며, 사고가 나지 않았을 경우 -> 가속
             this.fl.motorTorque = this.enemyVehicleStatus.torquePower; 
             this.fr.motorTorque = this.enemyVehicleStatus.torquePower;
             this.rr.motorTorque = this.enemyVehicleStatus.torquePower;
