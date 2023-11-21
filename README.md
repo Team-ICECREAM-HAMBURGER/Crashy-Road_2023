@@ -1,4 +1,4 @@
-# Crashy Road(2023)
+# Crashy Road (2023)
 
 <img width="1036" alt="Screenshot 2023-06-28 at 15 09 12" src="https://github.com/Team-IceCreamHamburger/Crashy-Road_2023/assets/62886544/95e3604a-292d-4980-977b-5f6bded3a801">
 
