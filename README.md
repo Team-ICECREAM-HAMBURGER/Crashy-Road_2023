@@ -3,8 +3,11 @@
 <img width="1036" alt="Screenshot 2023-06-28 at 15 09 12" src="https://github.com/Team-IceCreamHamburger/Crashy-Road_2023/assets/62886544/95e3604a-292d-4980-977b-5f6bded3a801">
 
 <br/>
+<br/>
 
 > ## 도심을 아수라장으로 만들며 브레이크 없는 추격전을 펼치세요!
+
+<br/>
  
 | 구분          | 사양                     |
 | ------------ | ----------------------- |
@@ -15,7 +18,7 @@
 | 발매일         | 2023.11.22              |
 | 엔진          | Unity 2021.3.22f1       |
 | 한국어 지원 여부 | 지원                     |
-| 심의 등급      | 15세 이용가               |
+| 심의 등급      | 12세 이용가               |
 
 <br/>
 
@@ -30,13 +33,16 @@ https://youtu.be/o-Ckr-xG1NA
 <br/>
 
 # 사양
+
+<br/>
+
 | 구분 | 권장 사양                                     |
 | --- | ------------------------------------------ |
 | OS  | Windows 10 이상 또는 MacOS 13 (Ventura) 이상   |
 | RAM | 8GB 이상                                     |
 | CPU | Apple ARM M1 또는 Intel i5 2세대 이상          |
 | GPU | Apple ARM M1 또는 Intel UHD 620 이상          |
-| 용량 | 1GB 이상                                     |
+| 용량 | 2GB 이상                                     |
 
 <br/>
 
