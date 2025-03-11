@@ -23,7 +23,7 @@
 <br/>
 
 # 스토어 링크
-(링크)
+https://store.onstove.com/ko/games/2719
 
 <br/>
 
@@ -132,8 +132,4 @@ Github: https://github.com/Team-IceCreamHamburger
 <img width="699" alt="Screenshot 2023-06-20 at 18 14 26" src="https://github.com/Team-IceCreamHamburger/.github/assets/62886544/5bcb046d-7411-4398-9567-d2bf863a5a76">
 
 <br/>
-
-# 업데이트 내역
-- (2023.06.20) 0.1 버전 빌드
-- (2023.11.21) 0.1 버전 스토브 인디 스토어 등록
 
